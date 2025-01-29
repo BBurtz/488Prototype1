@@ -108,16 +108,16 @@ public class BoxBehavior : MonoBehaviour
         switch (forceDir)
         {
             case forceDirection.POSX:
-                modifiedPos.x -= gridSize;
-                break;
-            case forceDirection.NEGX:
                 modifiedPos.x += gridSize;
                 break;
+            case forceDirection.NEGX:
+                modifiedPos.x -= gridSize;
+                break;
             case forceDirection.POSZ:
-                modifiedPos.z -= gridSize;
+                modifiedPos.z += gridSize;
                 break;
             case forceDirection.NEGZ:
-                modifiedPos.z += gridSize;
+                modifiedPos.z -= gridSize;
                 break;
             default:
                 Debug.LogError("Invalid Movement Direction Detected!");
@@ -135,7 +135,6 @@ public class BoxBehavior : MonoBehaviour
     private void MoveLinkedBox(forceDirection forceDir)
     {
         //Pretty much copy the same as above, but flip the signs
-        //So instead of POSX subtracting on the x axis, it should add to the x axis
         //Change the transform.position to that of the linked box
         //It should work and create parity. However, no checks are in place
     }
