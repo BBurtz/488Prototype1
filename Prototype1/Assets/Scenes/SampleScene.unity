@@ -847,7 +847,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c4a4df9b7a37e43831a7b54ef98f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canMove: 1
+  moveSpeed: 0
+  Camera: {fileID: 0}
+  playerControls: {fileID: 1058490748}
+  MoveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a57a84bd-7c8f-4046-bcd3-99c951f56e65
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &1058490748
 MonoBehaviour:
   m_ObjectHideFlags: 0
