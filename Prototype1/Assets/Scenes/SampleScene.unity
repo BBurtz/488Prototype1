@@ -739,7 +739,7 @@ GameObject:
   - component: {fileID: 1058490748}
   - component: {fileID: 1058490749}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -857,6 +857,24 @@ MonoBehaviour:
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: a57a84bd-7c8f-4046-bcd3-99c951f56e65
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  InteractAction:
+    m_Name: Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7eb649a8-2272-47d7-a3ff-59017fb59291
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  SwitchAction:
+    m_Name: Switch
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 715c7109-4ff5-4b7f-8022-a016ffe6272c
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
