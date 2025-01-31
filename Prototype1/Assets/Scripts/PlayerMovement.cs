@@ -22,10 +22,15 @@ public class PlayerMovement : MonoBehaviour
 
     Coroutine movementcoroutineInstance;
 
+    private DimensionTransition dimensionTransition;
+
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        dimensionTransition = FindObjectOfType<DimensionTransition>();
+
+
     }
 
     private void OnEnable()
@@ -44,6 +49,8 @@ public class PlayerMovement : MonoBehaviour
     {
         //Code to change which world you are in
         //Probably having this call a function in a different script would be the best
+
+        dimensionTransition.SwapDimension();
     }
 
     private void interact(InputAction.CallbackContext context)
