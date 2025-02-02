@@ -1,6 +1,6 @@
 /*****************************************************************************
 // File Name :          BoxBehavior.cs
-// Author :             Cade R. Naylor
+// Author :             Cade R. Naylor, Elda Osmani
 // Creation Date :      January 29, 2025
 // Modified Date :      January 29, 2025
 // Last Modified By :   [NAME]
@@ -100,7 +100,7 @@ public class BoxBehavior : MonoBehaviour
     {
         moveTimer = 0;
         Vector3 modifiedPos = transform.position;
-        //You will note in all cases it apples force in the opposite direction from the applied from. 
+        //You will note in all cases it applies force in the opposite direction from the applied from. 
         //If force is applied from positive x, the box should move in a negative x, and so on and so forth
 
         //Checks the movement direction and adjusts the corresponding value of modifiedPos.
@@ -137,6 +137,32 @@ public class BoxBehavior : MonoBehaviour
         //Pretty much copy the same as above, but flip the signs
         //Change the transform.position to that of the linked box
         //It should work and create parity. However, no checks are in place
+        
+        moveTimer = 0;
+        Vector3 linkedModifiedPos = linkedBox.transform.position;
+
+        switch (forceDir)
+        {
+            case forceDirection.POSX:
+                linkedModifiedPos.x -= gridSize;
+                break;
+            case forceDirection.NEGX:
+                linkedModifiedPos.x += gridSize;
+                break;
+            case forceDirection.POSZ:
+                linkedModifiedPos.z -= gridSize;
+                break;
+            case forceDirection.NEGZ:
+                linkedModifiedPos.z += gridSize;
+                break;
+            default:
+                Debug.LogError("Invalid Movement Direction Detected!");
+                break;
+
+        }
+        //Set the modified position
+        linkedBox.transform.position = linkedModifiedPos;
+
     }
 
     #endregion
