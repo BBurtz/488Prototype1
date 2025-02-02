@@ -47,9 +47,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void shift(InputAction.CallbackContext context)
     {
-        //Code to change which world you are in
-        //Probably having this call a function in a different script would be the best
-
         dimensionTransition.SwapDimension();
     }
 
