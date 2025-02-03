@@ -8,8 +8,11 @@
 // Brief Description : Implements basic treadmill behavior
                         - Objects move in the direction the arrow points
 *****************************************************************************/
+using NUnit.Framework;
 using System.Net;
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class TreadmillBehavior : MonoBehaviour
 {
@@ -19,7 +22,7 @@ public class TreadmillBehavior : MonoBehaviour
     private treadmillDirection treadmillDir;
     [SerializeField, Tooltip("Material for a treadmill. Will override any other materials.")]
     private Material treadmillMaterial;
-    [SerializeField, Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
+    [SerializeField, UnityEngine.Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
     private float speed;
 
     /*[Header("Linked Treadmill Values")]
@@ -29,7 +32,7 @@ public class TreadmillBehavior : MonoBehaviour
     [HideInInspector]
     public bool directionIsFlipped = false;
 
-    private enum treadmillDirection
+    public enum treadmillDirection
     {
         POSX, NEGX, POSZ, NEGZ
     }
@@ -125,11 +128,21 @@ public class TreadmillBehavior : MonoBehaviour
         SetDirection();
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        if (other.GetComponent<BoxBehavior>() != null)
+        {
+            StartCoroutine(other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir, transform.localScale.x));
 
+        }
     }
 
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<BoxBehavior>() != null)
+        {
+        }
+    }
     #endregion
 }

@@ -13,6 +13,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 using Unity.VisualScripting;
+using static TreadmillBehavior;
 
 public class BoxBehavior : MonoBehaviour
 {
@@ -28,7 +29,10 @@ public class BoxBehavior : MonoBehaviour
 
     private float moveTimer;            //An internal timer to track how long force has been applied
     private float forceTimeBeforeMove;  //The calculated value for how much time should elapse before the box moves
-    
+
+    private Vector3 velAdjustment;
+
+
     /// <summary>
     /// Holds the different movement directions in a more readable way
     /// </summary>
@@ -110,7 +114,6 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="player">A reference to the player object</param>
     public void CallMoveBox(GameObject player)
     {
-
         //Calculate the difference in position between this object and the next
         Vector2 difference = new Vector2(transform.position.x - player.transform.position.x, transform.position.z - player.transform.position.z);
 
@@ -151,7 +154,6 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="forceDir">The direction force is being applied from</param>
     private void MoveBox(forceDirection forceDir)
     {
-        //print("Called");
         moveTimer = 0;
         Vector3 modifiedPos = transform.position;
         //You will note in all cases it applies force in the opposite direction from the applied from. 
@@ -216,6 +218,42 @@ public class BoxBehavior : MonoBehaviour
         }
         //Set the modified position
         linkedBox.transform.position = linkedModifiedPos;
+
+    }
+
+    public IEnumerator HandleTreadmill(float speed, TreadmillBehavior.treadmillDirection treadDir, float size)
+    {
+        for(int i=0; i<=size; i++)
+        {
+            Vector3 modifiedPos = transform.position;
+
+            //Checks the movement direction and adjusts the corresponding value of modifiedPos.
+            //Throws an error if there is an invalid movement type
+            switch (treadDir)
+            {
+                case TreadmillBehavior.treadmillDirection.POSX:
+                    modifiedPos.x += gridSize;
+                    break;
+                case TreadmillBehavior.treadmillDirection.NEGX:
+                    modifiedPos.x -= gridSize;
+                    break;
+                case TreadmillBehavior.treadmillDirection.POSZ:
+                    modifiedPos.z += gridSize;
+                    break;
+                case TreadmillBehavior.treadmillDirection.NEGZ:
+                    modifiedPos.z -= gridSize;
+                    break;
+                default:
+                    Debug.LogError("Invalid Treadmill Direction Detected!");
+                    break;
+
+            }
+            //Set the modified position
+            transform.position = modifiedPos;
+            yield return new WaitForSeconds(1.0f / speed);
+        }
+
+
 
     }
 
