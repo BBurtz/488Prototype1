@@ -147,7 +147,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
     }
 
