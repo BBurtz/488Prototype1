@@ -14,14 +14,15 @@ public class PlayerMovement : MonoBehaviour
     public bool CurrentlyJumping;
 
     public GameObject Camera;
+    public GameObject EndScrene;
 
     public PlayerInput playerControls;
 
-    public InputAction MoveAction;
-    public InputAction InteractAction;
-    public InputAction SwitchAction;
-    public InputAction DestroyAction;
-    public InputAction JumpAction;
+    private InputAction MoveAction;
+    private InputAction InteractAction;
+    private InputAction SwitchAction;
+    private InputAction DestroyAction;
+    private InputAction JumpAction;
 
     [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
@@ -39,6 +40,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
     public bool PushToMoveBlocks { get => pushToMoveBlocks;}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "EndLine")
+        {
+            EndScrene.SetActive(true);
+        }
+    }
 
     private void Start()
     {
