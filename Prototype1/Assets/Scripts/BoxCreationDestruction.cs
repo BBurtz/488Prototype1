@@ -12,23 +12,45 @@ using UnityEngine;
 public class BoxCreationDestruction : MonoBehaviour
 {
     [SerializeField] private GameObject linkedBox;
+    [SerializeField] private GameObject originalBox;
 
-    private void Start()
-    {
-        linkedBox.SetActive(false);
-
-    }
     public void destroyBox()
     {
-        gameObject.SetActive(false);
-        createBox();
+        if (originalBox == true)
+        {
+            originalBox.SetActive(false);
+            createLinkedBox();
+        }
+        else if (linkedBox == true)
+        {
+            linkedBox.SetActive(false);
+            createOriginalBox();
+        }
+        else
+        {
+            //do nothing
+        }
     }
 
-    public void createBox()
+    /*public void destroyOriginalBox()
     {
-        if (gameObject == null)
-        {
-            linkedBox.SetActive(true);
-        }
+        gameObject.SetActive(false);
+        createLinkedBox();
+    }*/
+
+    public void createLinkedBox()
+    {
+        linkedBox.SetActive(true);
+    }
+
+/*    public void destroyLinkedBox()
+    {
+        linkedBox.SetActive(false);
+        createOriginalBox();
+    }*/
+
+    public void createOriginalBox()
+    {
+        originalBox.SetActive(true);
     }
 }
