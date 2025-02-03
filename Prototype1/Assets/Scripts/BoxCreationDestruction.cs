@@ -16,15 +16,15 @@ public class BoxCreationDestruction : MonoBehaviour
 
     public void destroyBox()
     {
-        if (originalBox == true)
+        if (originalBox.activeInHierarchy && !linkedBox.activeInHierarchy)
         {
+            linkedBox.SetActive(true);
             originalBox.SetActive(false);
-            createLinkedBox();
         }
-        else if (linkedBox == true)
+        else if (!originalBox.activeInHierarchy && linkedBox.activeInHierarchy)
         {
+            originalBox.SetActive(true);
             linkedBox.SetActive(false);
-            createOriginalBox();
         }
         else
         {
@@ -38,10 +38,10 @@ public class BoxCreationDestruction : MonoBehaviour
         createLinkedBox();
     }*/
 
-    public void createLinkedBox()
+/*    public void createLinkedBox()
     {
         linkedBox.SetActive(true);
-    }
+    }*/
 
 /*    public void destroyLinkedBox()
     {
@@ -49,8 +49,8 @@ public class BoxCreationDestruction : MonoBehaviour
         createOriginalBox();
     }*/
 
-    public void createOriginalBox()
+/*    public void createOriginalBox()
     {
         originalBox.SetActive(true);
-    }
+    }*/
 }

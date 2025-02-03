@@ -106,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
     private void destroy(InputAction.CallbackContext context)
     {
         //Destroys boxes with the BoxCreationDestruction code
-        boxCreationDestruction.destroylBox();
+        boxCreationDestruction.destroyBox();
     }
 
     private void stop(InputAction.CallbackContext context)
