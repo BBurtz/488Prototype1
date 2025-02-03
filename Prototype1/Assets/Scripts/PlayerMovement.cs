@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction MoveAction;
     public InputAction InteractAction;
     public InputAction SwitchAction;
+    public InputAction DestroyAction;
 
     private Rigidbody rb;
 
@@ -23,13 +24,14 @@ public class PlayerMovement : MonoBehaviour
     Coroutine movementcoroutineInstance;
 
     private DimensionTransition dimensionTransition;
+    [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         dimensionTransition = FindObjectOfType<DimensionTransition>();
-
+        boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
 
     }
 
@@ -39,10 +41,12 @@ public class PlayerMovement : MonoBehaviour
         MoveAction = playerControls.currentActionMap.FindAction("Move");
         InteractAction = playerControls.currentActionMap.FindAction("Interact");
         SwitchAction = playerControls.currentActionMap.FindAction("Sprint");
+        DestroyAction = playerControls.currentActionMap.FindAction("Destroy");
         SwitchAction.started += shift;
         MoveAction.performed += move;
         MoveAction.canceled += stop;
         InteractAction.started += interact;
+        DestroyAction.started += destroy;
     }
 
     private void shift(InputAction.CallbackContext context)
@@ -54,6 +58,12 @@ public class PlayerMovement : MonoBehaviour
     {
         //Interaction with the pushblock code
         //Probably having this call a function in a different script would be the best
+    }
+
+    private void destroy(InputAction.CallbackContext context)
+    {
+        //Destroys boxes with the BoxCreationDestruction code
+        boxCreationDestruction.destroyBox();
     }
 
     private void stop(InputAction.CallbackContext context)
