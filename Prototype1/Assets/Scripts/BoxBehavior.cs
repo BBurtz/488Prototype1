@@ -136,10 +136,11 @@ public class BoxBehavior : MonoBehaviour
 
 
     }
-    private void OnCollisionEnter(Collision collision)
+/*    private void OnCollisionEnter(Collision collision)
     {
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-    }
+        Debug.Log("Collided with box");
+    }*/
 
     /// <summary>
     /// Resets movement timer if the player exits the trigger
