@@ -13,6 +13,11 @@ public class BoxCreationDestruction : MonoBehaviour
 {
     [SerializeField] private GameObject linkedBox;
 
+    private void Start()
+    {
+        linkedBox.SetActive(false);
+
+    }
     public void destroyBox()
     {
         gameObject.SetActive(false);
