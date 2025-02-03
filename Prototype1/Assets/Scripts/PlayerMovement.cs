@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public bool CurrentlyJumping;
 
     public GameObject Camera;
+    public GameObject EndScrene;
 
     public PlayerInput playerControls;
 
@@ -39,6 +40,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
     public bool PushToMoveBlocks { get => pushToMoveBlocks;}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "EndLine")
+        {
+            EndScrene.SetActive(true);
+        }
+    }
 
     private void Start()
     {
