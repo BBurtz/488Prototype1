@@ -39,7 +39,11 @@ public class DimensionTransition : MonoBehaviour
     private Vector3 floorWidthAcrossX;
     //for calculating mirroring across z axis
     private Vector3 floorWidthAcrossZ;
-    
+
+    //materials for the filter
+    public Material Light;
+    public Material Dark;
+    public GameObject Filter;
 
     private void Start()
     {
@@ -59,6 +63,14 @@ public class DimensionTransition : MonoBehaviour
         {
             playerPosition.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
+            if (inNormalDimension)
+            {
+                Filter.GetComponent<MeshRenderer>().material= Light;
+            }
+            else
+            {
+                Filter.GetComponent<MeshRenderer>().material = Dark;
+            }
         }
         //if something collides with the player
         else if (isInBox())
