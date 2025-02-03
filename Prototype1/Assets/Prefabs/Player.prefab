@@ -313,6 +313,18 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  DestroyAction:
+    m_Name: Destroy
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b11abb22-7913-4356-abe1-d8a847fa8a88
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  pushToMoveBlocks: 0
+  BoxesInRange: []
+  boxCreationDestruction: {fileID: 0}
 --- !u!114 &5178863309105332826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,10 +394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68b31d756a6d9a94984d0bb6f4efaf6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorCollider: {fileID: 0}
   MirrorAlongX: 1
   swappingCollisionOffset: {x: 0, y: 0, z: 0}
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
+  floorCollider: {fileID: 0}
   IgnoreWhenShifting:
     serializedVersion: 2
     m_Bits: 0
