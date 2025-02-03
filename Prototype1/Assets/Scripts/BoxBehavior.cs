@@ -25,6 +25,7 @@ public class BoxBehavior : MonoBehaviour
     private boxMaterial boxType = boxMaterial.WOOD;
     [SerializeField, Tooltip("The related box in the other dimension. Must be filled out on both boxes. If no linked object, leave blank.")]
     private GameObject linkedBox;       //Stores the linked box, should it have one
+    private Rigidbody rb;
 
     private float moveTimer;            //An internal timer to track how long force has been applied
     private float forceTimeBeforeMove;  //The calculated value for how much time should elapse before the box moves
@@ -56,6 +57,7 @@ public class BoxBehavior : MonoBehaviour
     private void Start()
     {
         forceTimeBeforeMove = 1f * gridSize * boxWidth;
+        rb = GetComponent<Rigidbody>();
     }
 
     /// <summary>
@@ -127,11 +129,18 @@ public class BoxBehavior : MonoBehaviour
         {
             //Move the linked box
             //NEEDS IMPLEMENTATION
+
+
             MoveLinkedBox(forceDir);
         }
+
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
     }
 
-    
     /// <summary>
     /// Resets movement timer if the player exits the trigger
     /// </summary>
