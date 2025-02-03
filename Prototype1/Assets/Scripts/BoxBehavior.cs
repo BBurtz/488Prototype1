@@ -151,7 +151,7 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="forceDir">The direction force is being applied from</param>
     private void MoveBox(forceDirection forceDir)
     {
-        print("Called");
+        //print("Called");
         moveTimer = 0;
         Vector3 modifiedPos = transform.position;
         //You will note in all cases it applies force in the opposite direction from the applied from. 
