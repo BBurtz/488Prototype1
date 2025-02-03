@@ -408,7 +408,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -416,7 +416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -555,11 +555,11 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.05, y: 1.5, z: 1.05}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1907427607
 MeshRenderer:
@@ -623,8 +623,8 @@ Transform:
   m_GameObject: {fileID: 1907427605}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.24, y: -0.049, z: -1.18}
-  m_LocalScale: {x: 2, y: 0.1, z: 4}
+  m_LocalPosition: {x: 0, y: -0.049, z: -1}
+  m_LocalScale: {x: 2, y: 0.1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -643,7 +643,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treadmillDir: 0
   treadmillMaterial: {fileID: 2100000, guid: 23cfbea4779a1824fb442981f4ffdde6, type: 2}
-  speed: 0.5
+  speed: 2
   directionIsFlipped: 0
 --- !u!1 &2046259294
 GameObject:
