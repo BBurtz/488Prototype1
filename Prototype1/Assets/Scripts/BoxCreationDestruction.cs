@@ -15,7 +15,7 @@ public class BoxCreationDestruction : MonoBehaviour
 
     private void Start()
     {
-        linkedBox.SetActive(false);
+        //linkedBox.SetActive(false);
 
     }
     public void destroyBox()
@@ -26,9 +26,9 @@ public class BoxCreationDestruction : MonoBehaviour
 
     public void createBox()
     {
-        if (gameObject == null)
-        {
+ /*       if (gameObject == null)
+        {*/
             linkedBox.SetActive(true);
-        }
+  //      }
     }
 }
