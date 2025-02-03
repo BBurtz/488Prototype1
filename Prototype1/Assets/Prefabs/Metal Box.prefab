@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 4079749055122276855}
   - component: {fileID: 3298004114141679572}
   - component: {fileID: 7104405919261494550}
+  - component: {fileID: 9144066564667654064}
   - component: {fileID: 8114603739206168}
   - component: {fileID: 2698854490614472189}
   - component: {fileID: -2303878263254472195}
-  - component: {fileID: -3164137761403539395}
   m_Layer: 0
-  m_Name: Box
+  m_Name: Metal Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,6 +90,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &9144066564667654064
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9039978300060451980}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8114603739206168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boxWidth: 1
   gridSize: 1
-  boxType: 1
+  boxType: 0
   linkedBox: {fileID: 0}
 --- !u!65 &2698854490614472189
 BoxCollider:
@@ -154,25 +175,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 122
   m_CollisionDetection: 0
---- !u!64 &-3164137761403539395
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9039978300060451980}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
