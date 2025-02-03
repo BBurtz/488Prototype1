@@ -17,11 +17,11 @@ public class PlayerMovement : MonoBehaviour
 
     public PlayerInput playerControls;
 
-    public InputAction MoveAction;
-    public InputAction InteractAction;
-    public InputAction SwitchAction;
-    public InputAction DestroyAction;
-    public InputAction JumpAction;
+    private InputAction MoveAction;
+    private InputAction InteractAction;
+    private InputAction SwitchAction;
+    private InputAction DestroyAction;
+    private InputAction JumpAction;
 
     [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
