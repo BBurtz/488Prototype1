@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction MoveAction;
     public InputAction InteractAction;
     public InputAction SwitchAction;
+    public InputAction DestroyAction;
 
     [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     Coroutine movementcoroutineInstance;
 
     private DimensionTransition dimensionTransition;
+    [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
     public bool PushToMoveBlocks { get => pushToMoveBlocks;}
 
@@ -38,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         dimensionTransition = FindObjectOfType<DimensionTransition>();
-
+        boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
 
     }
 
@@ -48,10 +50,12 @@ public class PlayerMovement : MonoBehaviour
         MoveAction = playerControls.currentActionMap.FindAction("Move");
         InteractAction = playerControls.currentActionMap.FindAction("Interact");
         SwitchAction = playerControls.currentActionMap.FindAction("Sprint");
+        DestroyAction = playerControls.currentActionMap.FindAction("Destroy");
         SwitchAction.started += shift;
         MoveAction.performed += move;
         MoveAction.canceled += stop;
         InteractAction.started += interact;
+        DestroyAction.started += destroy;
     }
 
     private void shift(InputAction.CallbackContext context)
@@ -72,6 +76,12 @@ public class PlayerMovement : MonoBehaviour
         {
             bb.CallMoveBox(gameObject);
         }
+    }
+
+    private void destroy(InputAction.CallbackContext context)
+    {
+        //Destroys boxes with the BoxCreationDestruction code
+        boxCreationDestruction.destroyBox();
     }
 
     private void stop(InputAction.CallbackContext context)
