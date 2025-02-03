@@ -9,6 +9,9 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed;
+    public float jumpStrength;
+
+    public bool CurrentlyJumping;
 
     public GameObject Camera;
 
@@ -18,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction InteractAction;
     public InputAction SwitchAction;
     public InputAction DestroyAction;
+    public InputAction JumpAction;
 
     [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
@@ -51,11 +55,23 @@ public class PlayerMovement : MonoBehaviour
         InteractAction = playerControls.currentActionMap.FindAction("Interact");
         SwitchAction = playerControls.currentActionMap.FindAction("Sprint");
         DestroyAction = playerControls.currentActionMap.FindAction("Destroy");
+        JumpAction = playerControls.currentActionMap.FindAction("Jump");
+        JumpAction.started += Jump;
         SwitchAction.started += shift;
         MoveAction.performed += move;
         MoveAction.canceled += stop;
         InteractAction.started += interact;
         DestroyAction.started += destroy;
+    }
+
+    private void Jump(InputAction.CallbackContext context)
+    {
+        if (!CurrentlyJumping)
+        {
+            rb.AddForce(0, jumpStrength, 0, ForceMode.Force);
+            CurrentlyJumping = true;
+            StartCoroutine(JumpReset());
+        }
     }
 
     private void shift(InputAction.CallbackContext context)
@@ -88,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
     {
         StopCoroutine(movementcoroutineInstance);
         movementcoroutineInstance = null;
-        rb.linearVelocity = Vector3.zero;
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 
     private void move(InputAction.CallbackContext context)
@@ -99,6 +115,12 @@ public class PlayerMovement : MonoBehaviour
             movementcoroutineInstance = StartCoroutine(Movement());
         }
 
+    }
+
+    private IEnumerator JumpReset()
+    {
+        yield return new WaitForSeconds(3);
+        CurrentlyJumping = false;
     }
 
     public IEnumerator Movement()
@@ -114,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
             if (flatVel.magnitude > moveSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
-                rb.linearVelocity = new Vector3(limitedVel.x, 0, limitedVel.z);
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
             yield return new WaitForEndOfFrame();
         }
