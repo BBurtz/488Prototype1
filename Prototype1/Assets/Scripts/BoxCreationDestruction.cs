@@ -12,7 +12,7 @@ using UnityEngine;
 public class BoxCreationDestruction : MonoBehaviour
 {
     [SerializeField] private GameObject linkedBox;
-    [SerializeField] private GameObject originalBox;
+    public  GameObject originalBox;
 
     public void destroyBox()
     {
