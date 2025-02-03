@@ -21,6 +21,8 @@ public class BoxBehavior : MonoBehaviour
     private float boxWidth = 1f;        //Stores the size of the box. Used for calculations
     [SerializeField, Range(.5f, 3), Tooltip("The grid size, in Unity units. Should be at least half the box width.")]
     private float gridSize = .5f;       //Stores the size of the grid. Used for movement and calculations
+    [SerializeField, Tooltip("The material the box is made out of. Metal boxes cannot be destroyed.")]
+    private boxMaterial boxType = boxMaterial.WOOD;
     [SerializeField, Tooltip("The related box in the other dimension. Must be filled out on both boxes. If no linked object, leave blank.")]
     private GameObject linkedBox;       //Stores the linked box, should it have one
 
@@ -33,6 +35,14 @@ public class BoxBehavior : MonoBehaviour
     private enum forceDirection
     {
         POSX, NEGX, POSZ, NEGZ
+    }
+
+    /// <summary>
+    /// Holds the different materials the box can be made of in a more readable way
+    /// </summary>
+    private enum boxMaterial
+    {
+        METAL, WOOD
     }
 
     #endregion
@@ -50,39 +60,78 @@ public class BoxBehavior : MonoBehaviour
 
     /// <summary>
     /// Called every frame this object has another object within its trigger
-    /// 
+    /// Only calls the timer if PushToMoveBlocks is enabled
     /// </summary>
-    /// <param name="other"></param>
+    /// <param name="other">The object in the trigger</param>
     private void OnTriggerStay(Collider other)
     {
-        moveTimer += Time.deltaTime;
-        if(moveTimer > forceTimeBeforeMove)
+        //Check if the object has player movement
+        if(other.GetComponent<PlayerMovement>() != null)
         {
-            //Grab a reference to the player. Needs a check if the triggered object is the player
-            GameObject player = other.gameObject;
-
-            //Calculate the difference in position between this object and the next
-            Vector2 difference = new Vector2(transform.position.x - player.transform.position.x, transform.position.z - player.transform.position.z);
-            
-            //Determine what direction the force is mainly coming from. Checks if x force > y force (using the absolute value to handle negatives)
-            //Checks the polarity of the stronger coordinate and sets the force direction
-            forceDirection forceDir = (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) ? (difference.x > 0 ? forceDirection.POSX : forceDirection.NEGX) 
-                : (difference.y > 0 ? forceDirection.POSZ : forceDirection.NEGZ));
-            
-            //Moves the box
-            MoveBox(forceDir);
-
-            //If this object has a link in the other world, call the linked box movement
-            if(linkedBox != null)
+            //If it does, check if the player pushes to move blocks
+            if(other.GetComponent<PlayerMovement>().PushToMoveBlocks)
             {
-                //Move the linked box
-                //NEEDS IMPLEMENTATION
-                MoveLinkedBox(forceDir);
+                //Increase the timer if they do
+                moveTimer += Time.deltaTime;
+
+                //If the timer is full, call the box push
+                if (moveTimer > forceTimeBeforeMove)
+                {
+                    CallMoveBox(other.gameObject);
+                }
             }
         }
-
     }
 
+    /// <summary>
+    /// Called the first frame when an object enters this trigger
+    /// Only calls the list if PushToMoveBlocks is disabled
+    /// </summary>
+    /// <param name="other">The object in the trigger</param>
+    private void OnTriggerEnter(Collider other)
+    {
+        //Check if the object has player movement
+        if(other.GetComponent<PlayerMovement>()!=null)
+        {
+            //If it does, check if the player uses a key to move blocks
+            if(!other.GetComponent <PlayerMovement>().PushToMoveBlocks)
+            {
+                //Add the current box to the player's box list
+                other.GetComponent<PlayerMovement>().BoxesInRange.Add(this);
+            }
+        }
+    }
+
+    /// <summary>
+    /// A general function that handles box pushing
+    /// Gets the push direction and moves the box in the appropriate direction
+    /// Handles calls to linked boxes
+    /// </summary>
+    /// <param name="player">A reference to the player object</param>
+    public void CallMoveBox(GameObject player)
+    {
+
+        //Calculate the difference in position between this object and the next
+        Vector2 difference = new Vector2(transform.position.x - player.transform.position.x, transform.position.z - player.transform.position.z);
+
+        //Determine what direction the force is mainly coming from. Checks if x force > y force (using the absolute value to handle negatives)
+        //Checks the polarity of the stronger coordinate and sets the force direction
+        forceDirection forceDir = (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) ? (difference.x > 0 ? forceDirection.POSX : forceDirection.NEGX)
+            : (difference.y > 0 ? forceDirection.POSZ : forceDirection.NEGZ));
+
+        //Moves the box
+        MoveBox(forceDir);
+
+        //If this object has a link in the other world, call the linked box movement
+        if (linkedBox != null)
+        {
+            //Move the linked box
+            //NEEDS IMPLEMENTATION
+            MoveLinkedBox(forceDir);
+        }
+    }
+
+    
     /// <summary>
     /// Resets movement timer if the player exits the trigger
     /// </summary>
@@ -90,6 +139,10 @@ public class BoxBehavior : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         moveTimer = 0;
+        if(other.GetComponent<PlayerMovement>()!=null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        {
+            other.gameObject.GetComponent<PlayerMovement>().BoxesInRange.Remove(this);
+        }
     }
 
     /// <summary>
@@ -98,6 +151,7 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="forceDir">The direction force is being applied from</param>
     private void MoveBox(forceDirection forceDir)
     {
+        print("Called");
         moveTimer = 0;
         Vector3 modifiedPos = transform.position;
         //You will note in all cases it applies force in the opposite direction from the applied from. 

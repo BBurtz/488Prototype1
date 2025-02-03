@@ -1,5 +1,7 @@
+using NUnit.Framework;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,6 +19,12 @@ public class PlayerMovement : MonoBehaviour
     public InputAction SwitchAction;
     public InputAction DestroyAction;
 
+    [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
+    private bool pushToMoveBlocks = false;
+    [Tooltip("All boxes the player is currently in range of. All will move with 'E' if previous is False.")]
+    public List<BoxBehavior> BoxesInRange = new List<BoxBehavior>();
+
+
     private Rigidbody rb;
 
     Vector2 MoveVal;
@@ -26,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private DimensionTransition dimensionTransition;
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
+    public bool PushToMoveBlocks { get => pushToMoveBlocks;}
 
     private void Start()
     {
@@ -54,10 +63,19 @@ public class PlayerMovement : MonoBehaviour
         dimensionTransition.SwapDimension();
     }
 
+    /// <summary>
+    /// Called when the interact key is pressed. 
+    /// Calls MoveBox if interact is used to move box
+    /// </summary>
+    /// <param name="context"></param>
     private void interact(InputAction.CallbackContext context)
     {
         //Interaction with the pushblock code
         //Probably having this call a function in a different script would be the best
+        foreach (BoxBehavior bb in BoxesInRange)
+        {
+            bb.CallMoveBox(gameObject);
+        }
     }
 
     private void destroy(InputAction.CallbackContext context)
