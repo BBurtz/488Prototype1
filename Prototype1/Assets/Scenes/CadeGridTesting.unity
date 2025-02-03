@@ -511,6 +511,10 @@ PrefabInstance:
       propertyPath: pushToMoveBlocks
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: DestroyAction.m_Name
+      value: Destroy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -530,7 +534,7 @@ GameObject:
   - component: {fileID: 1907427606}
   - component: {fileID: 1907427610}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Treadmill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -580,7 +584,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 23cfbea4779a1824fb442981f4ffdde6, type: 2}
+  - {fileID: 2100000, guid: fecd99b87efab8a4dbdc1fd866af041a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
