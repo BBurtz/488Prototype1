@@ -1,3 +1,14 @@
+/*****************************************************************************
+// File Name :          PlayerMovement.cs
+// Author :             Brenden Burtz
+// Creation Date :      January 29, 2025
+// Modified Date :      February 3, 2025
+// Last Modified By :   Cade Naylor
+//
+// Brief Description :  Handles player input controls
+                            - Player Movement, both normal and treadmill
+                            - Calls interaction functions
+*****************************************************************************/
 using NUnit.Framework;
 using System;
 using System.Collections;
@@ -35,9 +46,9 @@ public class PlayerMovement : MonoBehaviour
     Vector2 MoveVal;
 
     Coroutine movementcoroutineInstance;
-    [SerializeField]
-    private bool movementOverrideForTreadmill = false;
-    private Coroutine treadmillMovementCoroutine;
+
+    private bool movementOverrideForTreadmill = false;      //A boolean storing whether the movement should be paused for treadmill movement
+    private Coroutine treadmillMovementCoroutine;       //Stores the treadmill movement coroutine while moving on it
 
     private DimensionTransition dimensionTransition;
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
@@ -135,6 +146,10 @@ public class PlayerMovement : MonoBehaviour
         CurrentlyJumping = false;
     }
 
+    /// <summary>
+    /// Coroutine for movement under normal conditions
+    /// </summary>
+    /// <returns>Time waited between calls</returns>
     public IEnumerator Movement()
     {
         while (true)
@@ -157,27 +172,52 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the player's current state in relation to the treadmill
+    /// Starts or stops a coroutine, depending on whether it has entered or exited
+    /// </summary>
+    /// <param name="speed">The speed of the treadmill, as a float</param>
+    /// <param name="treadmillDir">The direction of movement, as a treadmillDirection enum</param>
     public void HandleTreadmill(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
     {
-        if(movementOverrideForTreadmill)
+        //If the box is currently on a treadmill, stop its treadmill movement
+        if (movementOverrideForTreadmill)
         {
             StopCoroutine(treadmillMovementCoroutine);
-            rb.linearVelocity = Vector3.zero;
 
+            //Stop any lingering velocity for consistency
+            rb.linearVelocity = Vector3.zero;
         }
+        //Otherwise, start its treadmill movement
         else
         {
             treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir));
         }
+
+        //I'll spare the snarky comment here. See lines 246/247 on BoxBehavior
+
+        //Toggle the variable state
         movementOverrideForTreadmill = !movementOverrideForTreadmill;
         
     }
 
+    /// <summary>
+    /// Handles the logic and actual movement of the box on a treadmill
+    /// </summary>
+    /// <param name="speed">The speed of the treadmill, as a float</param>
+    /// <param name="treadDir">The direction of movement, as a treadmillDirection enum.</param>
+    /// Don't ask why one variable name, but not the other, changed from the last function. I'm tired.
+    /// <returns></returns>
     private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
     {
+        //Sets up an infinite loop, but safely
         while (true)
         {
+            //Declares and initializes a variable to hold the velocity direction
             Vector3 treadmillVel = Vector3.zero;
+
+            //Checks the treadmill direction and adjusts the corresponding value of treadmillVel.
+
             if (treadmillDir == TreadmillBehavior.treadmillDirection.POSZ)
             {
                 treadmillVel.z += speed;
@@ -195,10 +235,15 @@ public class PlayerMovement : MonoBehaviour
                 treadmillVel.x -= speed;
             }
 
+            //Wowwie this code is fully original
+            //It's not the same movement code as Brenden wrote above with a couple small tweaks
+            //Nnnope 
+            //I swear I still have marbles
             var c = MoveVal;
             Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x + treadmillVel;
             moveDirection.y = 0;
             rb.AddForce(moveDirection.normalized * moveSpeed * speed * 10f, ForceMode.Force);
+            //Wow so much change
 
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             if (flatVel.magnitude > moveSpeed)

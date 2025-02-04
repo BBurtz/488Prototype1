@@ -408,7 +408,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -4
       objectReference: {fileID: 0}
     - target: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -649,10 +649,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 661804614001810313, guid: 58716cf9329d8ce44828454fc21d317b, type: 3}
-      propertyPath: treadmillDir
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1194752823255479482, guid: 58716cf9329d8ce44828454fc21d317b, type: 3}
       propertyPath: m_Name
       value: Treadmill
