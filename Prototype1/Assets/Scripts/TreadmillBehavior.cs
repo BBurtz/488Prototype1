@@ -22,8 +22,8 @@ public class TreadmillBehavior : MonoBehaviour
     private treadmillDirection treadmillDir;
     [SerializeField, Tooltip("Material for a treadmill. Will override any other materials.")]
     private Material treadmillMaterial;
-    [SerializeField, UnityEngine.Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
-    private float speed;
+    [UnityEngine.Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
+    public float speed;
 
     /*[Header("Linked Treadmill Values")]
     [SerializeField, Tooltip("The related treadmill in the other dimension. Must be filled out on both treadmills. If no linked object, leave blank.")]
@@ -132,8 +132,13 @@ public class TreadmillBehavior : MonoBehaviour
     {
         if (other.GetComponent<BoxBehavior>() != null)
         {
-            StartCoroutine(other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir, transform.localScale.x));
-
+            other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir, transform.localScale.x);
+            
+        }
+        else if (other.GetComponent<PlayerMovement>()!=null)
+        {
+            other.GetComponent<PlayerMovement>().HandleTreadmill(speed, treadmillDir);
+            
         }
     }
 
@@ -142,6 +147,13 @@ public class TreadmillBehavior : MonoBehaviour
     {
         if (other.GetComponent<BoxBehavior>() != null)
         {
+            other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir, transform.localScale.x);
+
+        }
+        else if (other.GetComponent<PlayerMovement>() != null)
+        {
+            other.GetComponent<PlayerMovement>().HandleTreadmill(speed, treadmillDir);
+
         }
     }
     #endregion

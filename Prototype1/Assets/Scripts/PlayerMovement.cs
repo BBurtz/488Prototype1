@@ -35,6 +35,9 @@ public class PlayerMovement : MonoBehaviour
     Vector2 MoveVal;
 
     Coroutine movementcoroutineInstance;
+    [SerializeField]
+    private bool movementOverrideForTreadmill = false;
+    private Coroutine treadmillMovementCoroutine;
 
     private DimensionTransition dimensionTransition;
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
@@ -136,10 +139,66 @@ public class PlayerMovement : MonoBehaviour
     {
         while (true)
         {
+            if(!movementOverrideForTreadmill)
+            {
+                var c = MoveVal;
+                Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
+                moveDirection.y = 0;
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+                Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+                if (flatVel.magnitude > moveSpeed)
+                {
+                    Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                    rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+                }
+            }
+            yield return null;
+        }
+    }
+
+    public void HandleTreadmill(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
+    {
+        if(movementOverrideForTreadmill)
+        {
+            StopCoroutine(treadmillMovementCoroutine);
+            rb.linearVelocity = Vector3.zero;
+
+        }
+        else
+        {
+            treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir));
+        }
+        movementOverrideForTreadmill = !movementOverrideForTreadmill;
+        
+    }
+
+    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
+    {
+        while (true)
+        {
+            Vector3 treadmillVel = Vector3.zero;
+            if (treadmillDir == TreadmillBehavior.treadmillDirection.POSZ)
+            {
+                treadmillVel.z += speed;
+            }
+            else if (treadmillDir == TreadmillBehavior.treadmillDirection.NEGZ)
+            {
+                treadmillVel.z -= speed;
+            }
+            else if (treadmillDir == TreadmillBehavior.treadmillDirection.POSX)
+            {
+                treadmillVel.x += speed;
+            }
+            else
+            {
+                treadmillVel.x -= speed;
+            }
+
             var c = MoveVal;
-            Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
+            Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x + treadmillVel;
             moveDirection.y = 0;
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * moveSpeed * speed * 10f, ForceMode.Force);
 
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             if (flatVel.magnitude > moveSpeed)
@@ -147,6 +206,7 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
+
             yield return null;
         }
     }
