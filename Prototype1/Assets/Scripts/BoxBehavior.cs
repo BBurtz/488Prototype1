@@ -27,6 +27,7 @@ public class BoxBehavior : MonoBehaviour
     private boxMaterial boxType = boxMaterial.WOOD;
     [SerializeField, Tooltip("The related box in the other dimension. Must be filled out on both boxes. If no linked object, leave blank.")]
     private GameObject linkedBox;       //Stores the linked box, should it have one
+    [SerializeField] private LayerMask layerMask;
 
     private float moveTimer;            //An internal timer to track how long force has been applied
     private float forceTimeBeforeMove;  //The calculated value for how much time should elapse before the box moves
@@ -126,13 +127,6 @@ public class BoxBehavior : MonoBehaviour
         //Moves the box
         MoveBox(forceDir);
 
-        //If this object has a link in the other world, call the linked box movement
-        if (linkedBox != null)
-        {
-            //Move the linked box
-            //NEEDS IMPLEMENTATION
-            MoveLinkedBox(forceDir);
-        }
     }
 
     
@@ -182,7 +176,32 @@ public class BoxBehavior : MonoBehaviour
                 
         }
         //Set the modified position
-        transform.position = modifiedPos;
+        bool theCheck = OverlapCheck(this.gameObject, forceDir);
+
+        if(theCheck == false)
+        {
+            Debug.Log("Raycasted and NOT found object.");
+            //If this object has a link in the other world, call the linked box movement
+            if (linkedBox != null)
+            {
+                forceDirection temp = switchDir(forceDir);
+                if (!OverlapCheck(linkedBox, temp))
+                {
+                    //Move the linked box
+                    transform.position = modifiedPos;
+                    MoveLinkedBox(forceDir);
+                }
+            }
+            else
+            {
+                transform.position = modifiedPos;
+            }
+        }
+        else
+        {
+            Debug.Log("Cannot move");
+        }
+
     }
 
     /// <summary>
@@ -222,6 +241,31 @@ public class BoxBehavior : MonoBehaviour
 
     }
 
+    private forceDirection switchDir(forceDirection originalForce)
+    {
+        switch (originalForce)
+        {
+            case forceDirection.POSX:
+                return forceDirection.NEGX;
+                break;
+            case forceDirection.NEGX:
+                return forceDirection.POSX;
+                break;
+            case forceDirection.POSZ:
+                return forceDirection.NEGZ;
+                break;
+            case forceDirection.NEGZ:
+                return forceDirection.POSZ;
+                break;
+            default:
+                Debug.LogError("Invalid Movement Direction Detected!");
+                return 0;
+                break;
+
+        }
+
+    }
+
     /// <summary>
     /// Handles the box's current state in relation to the treadmill
     /// Starts or stops a coroutine, depending on whether it has entered or exited
@@ -247,6 +291,38 @@ public class BoxBehavior : MonoBehaviour
         //Toggle the variable state
         isOnTreadmill = !isOnTreadmill;
     }
+
+    private bool OverlapCheck(GameObject box, forceDirection forceDir)
+    {
+        Vector3 castDir = Vector3.zero;
+
+        switch (forceDir)
+        {
+            case forceDirection.POSX:
+                castDir.x += gridSize;
+                break;
+            case forceDirection.NEGX:
+                castDir.x -= gridSize;
+                break;
+            case forceDirection.POSZ:
+                castDir.z += gridSize;
+                break;
+            case forceDirection.NEGZ:
+                castDir.z -= gridSize;
+                break;
+            default:
+                Debug.LogError("Invalid Movement Direction Detected!");
+                break;
+
+        }
+
+        RaycastHit rh;
+        Debug.DrawRay(box.transform.position, castDir, Color.red);
+        bool hit = Physics.Raycast(box.transform.position, castDir*1, out rh, 1, layerMask);
+
+        return hit;
+    }
+
 
     /// <summary>
     /// Handles the logic and actual movement of the box on a treadmill
