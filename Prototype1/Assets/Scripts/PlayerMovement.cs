@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpStrength;
 
     public bool CurrentlyJumping;
+    private bool CurrentlyMoving;
 
     public GameObject Camera;
     public GameObject EndScrene;
@@ -91,6 +92,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!movementOverrideForTreadmill)
         {
+            if (!CurrentlyMoving)
+            {
+                MoveVal = Vector3.zero;
+            }
             var c = MoveVal;
             Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
             moveDirection.y = 0;
@@ -145,12 +150,14 @@ public class PlayerMovement : MonoBehaviour
     {
         /*StopCoroutine(movementcoroutineInstance);
         movementcoroutineInstance = null;*/
+        CurrentlyMoving = false;
         MoveVal = new Vector3(0, rb.linearVelocity.y, 0);
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 
     private void move(InputAction.CallbackContext context)
     {
+        CurrentlyMoving = true;
         MoveVal  = context.ReadValue<Vector2>();
         /*if(movementcoroutineInstance == null )
         {
