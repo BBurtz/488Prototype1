@@ -66,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(other.tag == "EndLine")
         {
+            Cursor.lockState = CursorLockMode.None;
             EndScrene.SetActive(true);
         }
     }
@@ -75,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         dimensionTransition = FindObjectOfType<DimensionTransition>();
         boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
+        Cursor.lockState = CursorLockMode.Locked;
 
         //audio
         walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
