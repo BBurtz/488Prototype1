@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpStrength;
 
     public bool CurrentlyJumping;
+    private bool CurrentlyMoving;
 
     public GameObject Camera;
     public GameObject EndScrene;
@@ -87,6 +88,28 @@ public class PlayerMovement : MonoBehaviour
         DestroyAction.started += destroy;
     }
 
+    private void FixedUpdate()
+    {
+        if (!movementOverrideForTreadmill)
+        {
+            if (!CurrentlyMoving)
+            {
+                MoveVal = Vector3.zero;
+            }
+            var c = MoveVal;
+            Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
+            moveDirection.y = 0;
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (flatVel.magnitude > moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
+        }
+    }
+
     private void Jump(InputAction.CallbackContext context)
     {
         if (!CurrentlyJumping)
@@ -125,24 +148,27 @@ public class PlayerMovement : MonoBehaviour
 
     private void stop(InputAction.CallbackContext context)
     {
-        StopCoroutine(movementcoroutineInstance);
-        movementcoroutineInstance = null;
+        /*StopCoroutine(movementcoroutineInstance);
+        movementcoroutineInstance = null;*/
+        CurrentlyMoving = false;
+        MoveVal = new Vector3(0, rb.linearVelocity.y, 0);
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 
     private void move(InputAction.CallbackContext context)
     {
+        CurrentlyMoving = true;
         MoveVal  = context.ReadValue<Vector2>();
-        if(movementcoroutineInstance == null )
+        /*if(movementcoroutineInstance == null )
         {
             movementcoroutineInstance = StartCoroutine(Movement());
-        }
+        }*/
 
     }
 
     private IEnumerator JumpReset()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
         CurrentlyJumping = false;
     }
 
@@ -150,7 +176,7 @@ public class PlayerMovement : MonoBehaviour
     /// Coroutine for movement under normal conditions
     /// </summary>
     /// <returns>Time waited between calls</returns>
-    public IEnumerator Movement()
+    /*public IEnumerator Movement()
     {
         while (true)
         {
@@ -159,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
                 var c = MoveVal;
                 Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
                 moveDirection.y = 0;
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * Time.deltaTime, ForceMode.Force);
 
                 Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
                 if (flatVel.magnitude > moveSpeed)
@@ -170,7 +196,7 @@ public class PlayerMovement : MonoBehaviour
             }
             yield return null;
         }
-    }
+    }*/
 
     /// <summary>
     /// Handles the player's current state in relation to the treadmill
