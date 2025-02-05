@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
 /*
  * Author: Sky Beal
  * Description: Swaps player between two dimensions. Runs collision checks and draws gizmos for debugging.
@@ -48,6 +50,8 @@ public class DimensionTransition : MonoBehaviour
     //for calculating mirroring across z axis
     private Vector3 floorWidthAcrossZ;
 
+    private EventInstance shiftSFX;
+
     private void Start()
     {
         playerPosition = FindObjectOfType<PlayerMovement>().transform;
@@ -63,6 +67,12 @@ public class DimensionTransition : MonoBehaviour
         {
             DimensionFilter.color = AlternateDimensionColor;
         }
+
+        shiftSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Shift);
+    }
+    private void Update()
+    {
+        shiftSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     /// <summary>
@@ -70,6 +80,7 @@ public class DimensionTransition : MonoBehaviour
     /// </summary>
     public void SwapDimension()
     {
+        shiftSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //if nothing collides with the player
         if (!isInBox())
         {
@@ -103,6 +114,8 @@ public class DimensionTransition : MonoBehaviour
         {
             DimensionFilter.color = AlternateDimensionColor;
         }
+        //play shift sfx, change this later on to have a different sound effect play when the player cannot shift dimensions
+        shiftSFX.start();
     }
 
     /// <summary>
@@ -111,7 +124,6 @@ public class DimensionTransition : MonoBehaviour
     /// <returns></returns>
     private Vector3 CalculateTransitionPoint()
     {
-
         if (inNormalDimension)
         {
             if (MirrorAlongX)
