@@ -2,11 +2,12 @@
 // File Name :          TreadmillBehavior.cs
 // Author :             Cade R. Naylor
 // Creation Date :      February 2, 2025
-// Modified Date :      February 2, 2025
+// Modified Date :      February 3, 2025
 // Last Modified By :   Cade Naylor
 //
 // Brief Description : Implements basic treadmill behavior
-                        - Objects move in the direction the arrow points
+                        - Treadmill auto-adjusts size and applies texture
+                        - Treadmill calls required movement functions
 *****************************************************************************/
 using NUnit.Framework;
 using System.Net;
@@ -17,21 +18,27 @@ using UnityEngine.EventSystems;
 public class TreadmillBehavior : MonoBehaviour
 {
     #region Variables
+
     [Header("Standard Treadmill Values")]
     [SerializeField, Tooltip("The direction the treadmill moves items in.")]
     private treadmillDirection treadmillDir;
     [SerializeField, Tooltip("Material for a treadmill. Will override any other materials.")]
     private Material treadmillMaterial;
-    [SerializeField, UnityEngine.Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
-    private float speed;
+    [UnityEngine.Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
+    public float speed;
 
     /*[Header("Linked Treadmill Values")]
     [SerializeField, Tooltip("The related treadmill in the other dimension. Must be filled out on both treadmills. If no linked object, leave blank.")]
     GameObject linkedTreadmill;*/
 
-    [HideInInspector]
+    [HideInInspector]       //This is not visible in the inspector. It is used internally, but accessed by other scripts
     public bool directionIsFlipped = false;
 
+    private bool hasTriggered;      //This is used to call enter and exit functions once for items with multiple colliders
+
+    /// <summary>
+    /// Holds the different movement directions in a more readable way
+    /// </summary>
     public enum treadmillDirection
     {
         POSX, NEGX, POSZ, NEGZ
@@ -39,7 +46,6 @@ public class TreadmillBehavior : MonoBehaviour
     #endregion
 
     #region Functions
-    
     /// <summary>
     /// Called on the first frame update.
     /// Initializes Treadmill state and swaps scale paramaters as needed.
@@ -128,20 +134,54 @@ public class TreadmillBehavior : MonoBehaviour
         SetDirection();
     }
 
+    /// <summary>
+    /// Calls proper movement functions when objects move onto the treadmill
+    /// </summary>
+    /// <param name="other">The collider entering the Treadmill's space</param>
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<BoxBehavior>() != null)
+        //If the other object is a box AND it hasn't triggered this interaction
+        if (other.GetComponent<BoxBehavior>() != null && !hasTriggered)
         {
-            StartCoroutine(other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir, transform.localScale.x));
-
+            //Call the box's movement function
+            other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir);
+            hasTriggered = true;
+            
         }
+        //Otherwise if the other object is the player
+        else if (other.GetComponent<PlayerMovement>()!=null)
+        {
+            //Call the player's movement function
+            other.GetComponent<PlayerMovement>().HandleTreadmill(speed, treadmillDir);
+        }
+
+        //This code would have looked so much cleaner if PlayerMovement and BoxBehavior inherited from the same parent
+        //It still would get a little messy, but not to this extent. 
+        //However, it wouldn't have been worth going in and adding a parent class for this sole reason
     }
 
-
+    /// <summary>
+    /// Calls proper movement functions when objects leave the treadmill
+    /// </summary>
+    /// <param name="other">The collider exiting the Treadmill's space</param>
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<BoxBehavior>() != null)
+        /*If the other object is a box AND it hasn't triggered this interaction
+            It looks weird having it check if 'hasTriggered' is true, but it is only true if an object has entered.
+            Thus, checking if it is true allows it to be set to false and reset easily.
+            Is there bug potential if you have multiple boxes at once? Absolutely*/
+        if (other.GetComponent<BoxBehavior>() != null && hasTriggered)
         {
+            //Call the box's movement function
+            other.GetComponent<BoxBehavior>().HandleTreadmill(speed, treadmillDir);
+            hasTriggered = false;
+        }
+        //Otherwise if the other object is the player
+        else if (other.GetComponent<PlayerMovement>() != null)
+        {
+            //Call the player's movement function
+            other.GetComponent<PlayerMovement>().HandleTreadmill(speed, treadmillDir);
+
         }
     }
     #endregion
