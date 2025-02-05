@@ -42,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     private bool pushToMoveBlocks = false;
     [Tooltip("All boxes the player is currently in range of. All will move with 'E' if previous is False.")]
     public List<BoxBehavior> BoxesInRange = new List<BoxBehavior>();
+    public List<BoxCreationDestruction> CDInRange = new List<BoxCreationDestruction>();
+
 
 
     private Rigidbody rb;
@@ -161,7 +163,11 @@ public class PlayerMovement : MonoBehaviour
     private void destroy(InputAction.CallbackContext context)
     {
         //Destroys boxes with the BoxCreationDestruction code
-        boxCreationDestruction.destroyBox();
+        foreach (BoxCreationDestruction bcd in CDInRange)
+        {
+            bcd.destroyBox();
+            Debug.Log("Is this being called?");
+        }
     }
 
     private void stop(InputAction.CallbackContext context)

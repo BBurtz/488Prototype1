@@ -20,6 +20,7 @@ public class BoxCreationDestruction : MonoBehaviour
         {
             linkedBox.SetActive(true);
             originalBox.SetActive(false);
+            Debug.Log("Does destroying original work?");
         }
         else if (!originalBox.activeInHierarchy && linkedBox.activeInHierarchy)
         {
@@ -28,9 +29,27 @@ public class BoxCreationDestruction : MonoBehaviour
         }
         else
         {
-            //do nothing
+            Debug.LogWarning("Warning! Make sure one of the boxes is inactive in the hierarchy");
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //Check if the object has player movement
+        if (other.GetComponent<PlayerMovement>() != null)
+        {
+                //Add the current box to the player's box list
+                other.GetComponent<PlayerMovement>().CDInRange.Add(this);
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        {
+            other.gameObject.GetComponent<PlayerMovement>().CDInRange.Remove(this);
+        }
+    }
+
 
     /*public void destroyOriginalBox()
     {
@@ -38,19 +57,19 @@ public class BoxCreationDestruction : MonoBehaviour
         createLinkedBox();
     }*/
 
-/*    public void createLinkedBox()
-    {
-        linkedBox.SetActive(true);
-    }*/
+    /*    public void createLinkedBox()
+        {
+            linkedBox.SetActive(true);
+        }*/
 
-/*    public void destroyLinkedBox()
-    {
-        linkedBox.SetActive(false);
-        createOriginalBox();
-    }*/
+    /*    public void destroyLinkedBox()
+        {
+            linkedBox.SetActive(false);
+            createOriginalBox();
+        }*/
 
-/*    public void createOriginalBox()
-    {
-        originalBox.SetActive(true);
-    }*/
+    /*    public void createOriginalBox()
+        {
+            originalBox.SetActive(true);
+        }*/
 }
