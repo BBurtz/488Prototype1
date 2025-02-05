@@ -16,6 +16,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using FMODUnity;
+using FMOD.Studio;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpStrength;
 
     public bool CurrentlyJumping;
+    private bool CurrentlyMoving;
 
     public GameObject Camera;
     public GameObject EndScrene;
@@ -53,6 +56,10 @@ public class PlayerMovement : MonoBehaviour
     private DimensionTransition dimensionTransition;
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
+    private EventInstance walkSFX;
+    private EventInstance jumpSFX;
+    
+
     public bool PushToMoveBlocks { get => pushToMoveBlocks;}
 
     private void OnTriggerEnter(Collider other)
@@ -71,6 +78,15 @@ public class PlayerMovement : MonoBehaviour
         boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
         Cursor.lockState = CursorLockMode.Locked;
 
+        //audio
+        walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
+        jumpSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Jump);
+    }
+    private void Update()
+    {
+        //update sound location to stay on player
+        walkSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        jumpSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     private void OnEnable()
@@ -93,6 +109,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!movementOverrideForTreadmill)
         {
+            if (!CurrentlyMoving)
+            {
+                MoveVal = Vector3.zero;
+            }
             var c = MoveVal;
             Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
             moveDirection.y = 0;
@@ -111,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!CurrentlyJumping)
         {
+            jumpSFX.start();
             rb.AddForce(0, jumpStrength, 0, ForceMode.Force);
             CurrentlyJumping = true;
             StartCoroutine(JumpReset());
@@ -147,12 +168,14 @@ public class PlayerMovement : MonoBehaviour
     {
         /*StopCoroutine(movementcoroutineInstance);
         movementcoroutineInstance = null;*/
+        CurrentlyMoving = false;
         MoveVal = new Vector3(0, rb.linearVelocity.y, 0);
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 
     private void move(InputAction.CallbackContext context)
     {
+        CurrentlyMoving = true;
         MoveVal  = context.ReadValue<Vector2>();
         /*if(movementcoroutineInstance == null )
         {
@@ -188,6 +211,7 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 limitedVel = flatVel.normalized * moveSpeed;
                     rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
                 }
+                UpdateWalkSFX();
             }
             yield return null;
         }
@@ -274,6 +298,22 @@ public class PlayerMovement : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+    private void UpdateWalkSFX()
+    {
+        if ((rb.linearVelocity.x > 0 || rb.linearVelocity.z > 0) && rb.linearVelocity.y < 0.01 )
+        {
+            PLAYBACK_STATE playbackState;
+            walkSFX.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                walkSFX.start();
+            }
+        }
+        else
+        {
+            walkSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
     }
 
