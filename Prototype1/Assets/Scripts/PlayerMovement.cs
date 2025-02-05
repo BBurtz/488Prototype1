@@ -142,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator JumpReset()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
         CurrentlyJumping = false;
     }
 
@@ -159,7 +159,7 @@ public class PlayerMovement : MonoBehaviour
                 var c = MoveVal;
                 Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
                 moveDirection.y = 0;
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * Time.deltaTime, ForceMode.Force);
 
                 Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
                 if (flatVel.magnitude > moveSpeed)
