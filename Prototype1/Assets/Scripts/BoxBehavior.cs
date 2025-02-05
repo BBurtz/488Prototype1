@@ -2,17 +2,19 @@
 // File Name :          BoxBehavior.cs
 // Author :             Cade R. Naylor, Elda Osmani
 // Creation Date :      January 29, 2025
-// Modified Date :      January 29, 2025
-// Last Modified By :   [NAME]
+// Modified Date :      February 3, 2025
+// Last Modified By :   Cade Naylor
 //
 // Brief Description : Sets up and implements basic box behavior
                             - Box Gridded Movement
+                            - Box Treadmill Movement
 *****************************************************************************/
 using System.Linq;
 using UnityEngine;
 using System.Collections;
 using System;
 using Unity.VisualScripting;
+using static TreadmillBehavior;
 
 public class BoxBehavior : MonoBehaviour
 {
@@ -28,7 +30,10 @@ public class BoxBehavior : MonoBehaviour
 
     private float moveTimer;            //An internal timer to track how long force has been applied
     private float forceTimeBeforeMove;  //The calculated value for how much time should elapse before the box moves
-    
+
+    private bool isOnTreadmill = false;     //An internal bool used to check whether the box should be moving automatically or not
+    private Coroutine treadmillMovementCoroutine;       //Storage for the treadmill coroutine
+
     /// <summary>
     /// Holds the different movement directions in a more readable way
     /// </summary>
@@ -110,7 +115,6 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="player">A reference to the player object</param>
     public void CallMoveBox(GameObject player)
     {
-
         //Calculate the difference in position between this object and the next
         Vector2 difference = new Vector2(transform.position.x - player.transform.position.x, transform.position.z - player.transform.position.z);
 
@@ -151,7 +155,6 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="forceDir">The direction force is being applied from</param>
     private void MoveBox(forceDirection forceDir)
     {
-        print("Called");
         moveTimer = 0;
         Vector3 modifiedPos = transform.position;
         //You will note in all cases it applies force in the opposite direction from the applied from. 
@@ -217,6 +220,78 @@ public class BoxBehavior : MonoBehaviour
         //Set the modified position
         linkedBox.transform.position = linkedModifiedPos;
 
+    }
+
+    /// <summary>
+    /// Handles the box's current state in relation to the treadmill
+    /// Starts or stops a coroutine, depending on whether it has entered or exited
+    /// </summary>
+    /// <param name="speed">The speed of the treadmill, as a float</param>
+    /// <param name="treadmillDir">The direction of movement, as a treadmillDirection enum</param>
+    public void HandleTreadmill(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
+    {
+        //If the box is currently on a treadmill, stop its treadmill movement
+        if (isOnTreadmill)
+        {
+            StopCoroutine(treadmillMovementCoroutine);
+        }
+        //Otherwise, start its treadmill movement
+        else
+        {
+            treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir));
+        }
+
+        //I SO wanted to do that as a conditional operator. I should have. Hello, welcome to "Cade is Sleepy and has No
+        // Filter" time. You get comments like these in addition to your regularly scheduled helpful comments.
+
+        //Toggle the variable state
+        isOnTreadmill = !isOnTreadmill;
+    }
+
+    /// <summary>
+    /// Handles the logic and actual movement of the box on a treadmill
+    /// </summary>
+    /// <param name="speed">The speed of the treadmill, as a float</param>
+    /// <param name="treadDir">The direction of movement, as a treadmillDirection enum.</param>
+    /// Don't ask why one variable name, but not the other, changed from the last function. I'm tired.
+    /// <returns></returns>
+    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadDir)
+    {
+        //Sets up an infinite loop, but safely
+        while(true)
+        {
+            //Yeah, I copied previous movement code for this. How can you tell?
+            //Declares and initializes a variable to hold modified position
+            Vector3 modifiedPos = transform.position;
+
+            //Checks the movement direction and adjusts the corresponding value of modifiedPos.
+            //Throws an error if there is an invalid movement type
+            switch (treadDir)
+            {
+                case TreadmillBehavior.treadmillDirection.POSX:
+                    modifiedPos.x += gridSize;
+                    break;
+                case TreadmillBehavior.treadmillDirection.NEGX:
+                    modifiedPos.x -= gridSize;
+                    break;
+                case TreadmillBehavior.treadmillDirection.POSZ:
+                    modifiedPos.z += gridSize;
+                    break;
+                case TreadmillBehavior.treadmillDirection.NEGZ:
+                    modifiedPos.z -= gridSize;
+                    break;
+                default:
+                    Debug.LogError("Invalid Treadmill Direction Detected!");
+                    break;
+
+            }
+
+            //Set the modified position
+            transform.position = modifiedPos;
+
+            //Wait 1/speed seconds. This way, faster speeds move faster. Slower speeds move slower.
+            yield return new WaitForSeconds(1.0f / speed);
+        }
     }
 
     #endregion
