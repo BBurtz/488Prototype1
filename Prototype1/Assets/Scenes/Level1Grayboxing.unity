@@ -3424,6 +3424,14 @@ PrefabInstance:
       propertyPath: floorCollider
       value: 
       objectReference: {fileID: 751462778}
+    - target: {fileID: 3876867359785888007, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: swappingCollisionOffset.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3876867359785888007, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: swappingCollisionOffset.z
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4191098972485350534, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
