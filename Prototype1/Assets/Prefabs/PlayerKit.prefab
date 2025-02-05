@@ -926,31 +926,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35.621983
+      value: -0.00000041292515
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.66
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -150.3789
+      value: -0.036462292
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7000379
+      value: 0.71998966
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0729316
+      value: -0.10165624
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7065476
+      value: 0.67975694
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.07360981
+      value: 0.095975734
+      objectReference: {fileID: 0}
+    - target: {fileID: 1488826388481131856, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1488826388481131856, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 1488826388481131856, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 1629518969872259235, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: sizeOfCollisionScan.x
