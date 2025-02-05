@@ -18,6 +18,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using FMODUnity;
 using FMOD.Studio;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction SwitchAction;
     private InputAction DestroyAction;
     private InputAction JumpAction;
+    private InputAction ResetAction;
 
     [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
@@ -97,12 +99,19 @@ public class PlayerMovement : MonoBehaviour
         SwitchAction = playerControls.currentActionMap.FindAction("Sprint");
         DestroyAction = playerControls.currentActionMap.FindAction("Destroy");
         JumpAction = playerControls.currentActionMap.FindAction("Jump");
+        ResetAction = playerControls.currentActionMap.FindAction("Reload");
         JumpAction.started += Jump;
+        ResetAction.started += Reload;
         SwitchAction.started += shift;
         MoveAction.performed += move;
         MoveAction.canceled += stop;
         InteractAction.started += interact;
         DestroyAction.started += destroy;
+    }
+
+    private void Reload(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 
     private void FixedUpdate()
