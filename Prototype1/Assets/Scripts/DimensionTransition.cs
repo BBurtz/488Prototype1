@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 /*
  * Author: Sky Beal
  * Description: Swaps player between two dimensions. Runs collision checks and draws gizmos for debugging.
@@ -17,7 +18,11 @@ public class DimensionTransition : MonoBehaviour
     [Tooltip("How large the overlap box checks for collisions when shifting.")]
     public Vector3 sizeOfCollisionScan;
 
+    [Tooltip("Screen overlay color while in the normal dimension.")]
+    public Color NormalDimensionColor;
 
+    [Tooltip("Screen overlay color while in the alternate dimension.")]
+    public Color AlternateDimensionColor;
 
     [Header ("Calculations")]
 
@@ -26,6 +31,9 @@ public class DimensionTransition : MonoBehaviour
 
     [Tooltip("WALLS AND FLOOR SHOULD BE ON THIS LAYER--Layer mask that is ignored when looking for collisions.")]
     public LayerMask IgnoreWhenShifting;
+
+    [Tooltip("Canvas image that controls the color overlays.")]
+    public Image DimensionFilter;
 
     //length of the floor
     private Vector3 floorLength;
@@ -40,17 +48,21 @@ public class DimensionTransition : MonoBehaviour
     //for calculating mirroring across z axis
     private Vector3 floorWidthAcrossZ;
 
-    //materials for the filter
-    public Material Light;
-    public Material Dark;
-    public GameObject Filter;
-
     private void Start()
     {
         playerPosition = FindObjectOfType<PlayerMovement>().transform;
         floorLength = floorCollider.bounds.size;
         floorWidthAcrossX = new Vector3 (0, 0, (floorLength.z - 1) / 2);
         floorWidthAcrossZ = new Vector3 ((floorLength.x - 1) / 2, 0, 0);
+
+        if (inNormalDimension)
+        {
+            DimensionFilter.color = NormalDimensionColor;
+        }
+        else
+        {
+            DimensionFilter.color = AlternateDimensionColor;
+        }
     }
 
     /// <summary>
@@ -63,6 +75,7 @@ public class DimensionTransition : MonoBehaviour
         {
             playerPosition.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
+            /*
             if (inNormalDimension)
             {
                 Filter.GetComponent<MeshRenderer>().material= Light;
@@ -71,12 +84,24 @@ public class DimensionTransition : MonoBehaviour
             {
                 Filter.GetComponent<MeshRenderer>().material = Dark;
             }
+            */
         }
+
         //if something collides with the player
         else if (isInBox())
         {
             playerPosition.position = calculatedLocation + swappingCollisionOffset;
             inNormalDimension = !inNormalDimension;
+        }
+
+        //dimension visuals
+        if (inNormalDimension)
+        {
+            DimensionFilter.color = NormalDimensionColor;
+        }
+        else
+        {
+            DimensionFilter.color = AlternateDimensionColor;
         }
     }
 
