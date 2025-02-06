@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using FMODUnity;
@@ -14,8 +15,10 @@ public class DimensionTransition : MonoBehaviour
     [Tooltip ("Mirrors Across X or Z Axis - true is X.")]
     public bool MirrorAlongX;
 
+    /*
     [Tooltip("How far and which direction the player is sent if shifting into an object.")]
     public Vector3 swappingCollisionOffset;
+    */
 
     [Tooltip("How large the overlap box checks for collisions when shifting.")]
     public Vector3 sizeOfCollisionScan;
@@ -25,6 +28,12 @@ public class DimensionTransition : MonoBehaviour
 
     [Tooltip("Screen overlay color while in the alternate dimension.")]
     public Color AlternateDimensionColor;
+
+    [Tooltip("Color the screen turns when the player can't shift.")]
+    public Color CannotShiftColor;
+
+    [Tooltip("How long until the cannot shift color dissipates.")]
+    public float LengthOfCannotShiftColor;
 
     [Header ("Calculations")]
 
@@ -49,6 +58,8 @@ public class DimensionTransition : MonoBehaviour
     private Vector3 floorWidthAcrossX;
     //for calculating mirroring across z axis
     private Vector3 floorWidthAcrossZ;
+    //coroutine for color shifting
+    private Coroutine colorCoroutine;
 
     private EventInstance shiftSFX;
 
@@ -86,23 +97,12 @@ public class DimensionTransition : MonoBehaviour
         {
             playerPosition.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
-            /*
-            if (inNormalDimension)
-            {
-                Filter.GetComponent<MeshRenderer>().material= Light;
-            }
-            else
-            {
-                Filter.GetComponent<MeshRenderer>().material = Dark;
-            }
-            */
         }
 
         //if something collides with the player
         else if (isInBox())
         {
-            playerPosition.position = calculatedLocation + swappingCollisionOffset;
-            inNormalDimension = !inNormalDimension;
+            CannotShift();
         }
 
         //dimension visuals
@@ -198,5 +198,47 @@ public class DimensionTransition : MonoBehaviour
         }
 
         Gizmos.DrawWireCube(calculatedLocation, sizeOfCollisionScan / 2);
+    }
+
+    /// <summary>
+    /// Calls the color coroutine
+    /// </summary>
+    private void CannotShift()
+    {
+        if (colorCoroutine != null)
+        {
+            StopCoroutine(colorCoroutine);
+        }
+
+        colorCoroutine = StartCoroutine(ShiftColors());
+        
+    }
+
+    /// <summary>
+    /// Visual indication for when the player cannot shift
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ShiftColors()
+    {
+        float coroutineStartTime = Time.time;
+        float timeElapsed = 0;
+
+        while (timeElapsed < LengthOfCannotShiftColor)
+        {
+            timeElapsed = Time.time - coroutineStartTime;
+            
+            if (inNormalDimension)
+            {
+                DimensionFilter.color = Color.Lerp(CannotShiftColor, NormalDimensionColor, timeElapsed / LengthOfCannotShiftColor);
+            }
+            else
+            {
+                DimensionFilter.color = Color.Lerp(CannotShiftColor, AlternateDimensionColor, timeElapsed / LengthOfCannotShiftColor);
+            }
+
+            yield return null;
+        }
+
+        colorCoroutine = null;
     }
 }
