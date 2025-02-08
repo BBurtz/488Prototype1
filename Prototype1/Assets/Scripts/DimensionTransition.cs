@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using FMODUnity;
+using FMOD.Studio;
 /*
  * Author: Sky Beal
  * Description: Swaps player between two dimensions. Runs collision checks and draws gizmos for debugging.
@@ -12,8 +15,10 @@ public class DimensionTransition : MonoBehaviour
     [Tooltip ("Mirrors Across X or Z Axis - true is X.")]
     public bool MirrorAlongX;
 
+    /*
     [Tooltip("How far and which direction the player is sent if shifting into an object.")]
     public Vector3 swappingCollisionOffset;
+    */
 
     [Tooltip("How large the overlap box checks for collisions when shifting.")]
     public Vector3 sizeOfCollisionScan;
@@ -23,6 +28,12 @@ public class DimensionTransition : MonoBehaviour
 
     [Tooltip("Screen overlay color while in the alternate dimension.")]
     public Color AlternateDimensionColor;
+
+    [Tooltip("Color the screen turns when the player can't shift.")]
+    public Color CannotShiftColor;
+
+    [Tooltip("How long until the cannot shift color dissipates.")]
+    public float LengthOfCannotShiftColor;
 
     [Header ("Calculations")]
 
@@ -47,6 +58,10 @@ public class DimensionTransition : MonoBehaviour
     private Vector3 floorWidthAcrossX;
     //for calculating mirroring across z axis
     private Vector3 floorWidthAcrossZ;
+    //coroutine for color shifting
+    private Coroutine colorCoroutine;
+
+    private EventInstance shiftSFX;
 
     private void Start()
     {
@@ -63,6 +78,12 @@ public class DimensionTransition : MonoBehaviour
         {
             DimensionFilter.color = AlternateDimensionColor;
         }
+
+        shiftSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Shift);
+    }
+    private void Update()
+    {
+        shiftSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     /// <summary>
@@ -70,28 +91,18 @@ public class DimensionTransition : MonoBehaviour
     /// </summary>
     public void SwapDimension()
     {
+        shiftSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         //if nothing collides with the player
         if (!isInBox())
         {
             playerPosition.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
-            /*
-            if (inNormalDimension)
-            {
-                Filter.GetComponent<MeshRenderer>().material= Light;
-            }
-            else
-            {
-                Filter.GetComponent<MeshRenderer>().material = Dark;
-            }
-            */
         }
 
         //if something collides with the player
         else if (isInBox())
         {
-            playerPosition.position = calculatedLocation + swappingCollisionOffset;
-            inNormalDimension = !inNormalDimension;
+            CannotShift();
         }
 
         //dimension visuals
@@ -103,6 +114,8 @@ public class DimensionTransition : MonoBehaviour
         {
             DimensionFilter.color = AlternateDimensionColor;
         }
+        //play shift sfx, change this later on to have a different sound effect play when the player cannot shift dimensions
+        shiftSFX.start();
     }
 
     /// <summary>
@@ -111,7 +124,6 @@ public class DimensionTransition : MonoBehaviour
     /// <returns></returns>
     private Vector3 CalculateTransitionPoint()
     {
-
         if (inNormalDimension)
         {
             if (MirrorAlongX)
@@ -186,5 +198,47 @@ public class DimensionTransition : MonoBehaviour
         }
 
         Gizmos.DrawWireCube(calculatedLocation, sizeOfCollisionScan / 2);
+    }
+
+    /// <summary>
+    /// Calls the color coroutine
+    /// </summary>
+    private void CannotShift()
+    {
+        if (colorCoroutine != null)
+        {
+            StopCoroutine(colorCoroutine);
+        }
+
+        colorCoroutine = StartCoroutine(ShiftColors());
+        
+    }
+
+    /// <summary>
+    /// Visual indication for when the player cannot shift
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ShiftColors()
+    {
+        float coroutineStartTime = Time.time;
+        float timeElapsed = 0;
+
+        while (timeElapsed < LengthOfCannotShiftColor)
+        {
+            timeElapsed = Time.time - coroutineStartTime;
+            
+            if (inNormalDimension)
+            {
+                DimensionFilter.color = Color.Lerp(CannotShiftColor, NormalDimensionColor, timeElapsed / LengthOfCannotShiftColor);
+            }
+            else
+            {
+                DimensionFilter.color = Color.Lerp(CannotShiftColor, AlternateDimensionColor, timeElapsed / LengthOfCannotShiftColor);
+            }
+
+            yield return null;
+        }
+
+        colorCoroutine = null;
     }
 }
