@@ -10595,6 +10595,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1176464376}
+    - target: {fileID: 7999760988033242316, guid: e0ec200ffaf51d546b236a2d9901b4c0, type: 3}
+      propertyPath: NextScene
+      value: Level1Grayboxing
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
