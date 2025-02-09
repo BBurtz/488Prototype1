@@ -16,6 +16,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using FMODUnity;
+using FMOD.Studio;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpStrength;
 
     public bool CurrentlyJumping;
+    private bool CurrentlyMoving;
 
     public GameObject Camera;
     public GameObject EndScrene;
@@ -34,11 +38,14 @@ public class PlayerMovement : MonoBehaviour
     private InputAction SwitchAction;
     private InputAction DestroyAction;
     private InputAction JumpAction;
+    private InputAction ResetAction;
 
     [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
     [Tooltip("All boxes the player is currently in range of. All will move with 'E' if previous is False.")]
     public List<BoxBehavior> BoxesInRange = new List<BoxBehavior>();
+    public List<BoxCreationDestruction> CDInRange = new List<BoxCreationDestruction>();
+
 
 
     private Rigidbody rb;
@@ -53,12 +60,17 @@ public class PlayerMovement : MonoBehaviour
     private DimensionTransition dimensionTransition;
     [SerializeField] private BoxCreationDestruction boxCreationDestruction;
 
+    private EventInstance walkSFX;
+    private EventInstance jumpSFX;
+    
+
     public bool PushToMoveBlocks { get => pushToMoveBlocks;}
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "EndLine")
         {
+            Cursor.lockState = CursorLockMode.None;
             EndScrene.SetActive(true);
         }
     }
@@ -68,7 +80,17 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         dimensionTransition = FindObjectOfType<DimensionTransition>();
         boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
+        Cursor.lockState = CursorLockMode.Locked;
 
+        //audio
+        walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
+        jumpSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Jump);
+    }
+    private void Update()
+    {
+        //update sound location to stay on player
+        walkSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        jumpSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     private void OnEnable()
@@ -79,7 +101,9 @@ public class PlayerMovement : MonoBehaviour
         SwitchAction = playerControls.currentActionMap.FindAction("Sprint");
         DestroyAction = playerControls.currentActionMap.FindAction("Destroy");
         JumpAction = playerControls.currentActionMap.FindAction("Jump");
+        ResetAction = playerControls.currentActionMap.FindAction("Reload");
         JumpAction.started += Jump;
+        ResetAction.started += Reload;
         SwitchAction.started += shift;
         MoveAction.performed += move;
         MoveAction.canceled += stop;
@@ -87,10 +111,38 @@ public class PlayerMovement : MonoBehaviour
         DestroyAction.started += destroy;
     }
 
+    private void Reload(InputAction.CallbackContext context)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!movementOverrideForTreadmill)
+        {
+            if (!CurrentlyMoving)
+            {
+                MoveVal = Vector3.zero;
+            }
+            var c = MoveVal;
+            Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
+            moveDirection.y = 0;
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (flatVel.magnitude > moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
+        }
+    }
+
     private void Jump(InputAction.CallbackContext context)
     {
         if (!CurrentlyJumping)
         {
+            jumpSFX.start();
             rb.AddForce(0, jumpStrength, 0, ForceMode.Force);
             CurrentlyJumping = true;
             StartCoroutine(JumpReset());
@@ -120,29 +172,36 @@ public class PlayerMovement : MonoBehaviour
     private void destroy(InputAction.CallbackContext context)
     {
         //Destroys boxes with the BoxCreationDestruction code
-        boxCreationDestruction.destroyBox();
+        foreach (BoxCreationDestruction bcd in CDInRange)
+        {
+            bcd.destroyBox();
+            Debug.Log("Is this being called?");
+        }
     }
 
     private void stop(InputAction.CallbackContext context)
     {
-        StopCoroutine(movementcoroutineInstance);
-        movementcoroutineInstance = null;
+        /*StopCoroutine(movementcoroutineInstance);
+        movementcoroutineInstance = null;*/
+        CurrentlyMoving = false;
+        MoveVal = new Vector3(0, rb.linearVelocity.y, 0);
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
     }
 
     private void move(InputAction.CallbackContext context)
     {
+        CurrentlyMoving = true;
         MoveVal  = context.ReadValue<Vector2>();
-        if(movementcoroutineInstance == null )
+        /*if(movementcoroutineInstance == null )
         {
             movementcoroutineInstance = StartCoroutine(Movement());
-        }
+        }*/
 
     }
 
     private IEnumerator JumpReset()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1.5f);
         CurrentlyJumping = false;
     }
 
@@ -150,7 +209,7 @@ public class PlayerMovement : MonoBehaviour
     /// Coroutine for movement under normal conditions
     /// </summary>
     /// <returns>Time waited between calls</returns>
-    public IEnumerator Movement()
+    /*public IEnumerator Movement()
     {
         while (true)
         {
@@ -159,7 +218,7 @@ public class PlayerMovement : MonoBehaviour
                 var c = MoveVal;
                 Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x;
                 moveDirection.y = 0;
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * Time.deltaTime, ForceMode.Force);
 
                 Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
                 if (flatVel.magnitude > moveSpeed)
@@ -167,10 +226,11 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 limitedVel = flatVel.normalized * moveSpeed;
                     rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
                 }
+                UpdateWalkSFX();
             }
             yield return null;
         }
-    }
+    }*/
 
     /// <summary>
     /// Handles the player's current state in relation to the treadmill
@@ -253,6 +313,22 @@ public class PlayerMovement : MonoBehaviour
             }
 
             yield return null;
+        }
+    }
+    private void UpdateWalkSFX()
+    {
+        if ((rb.linearVelocity.x > 0 || rb.linearVelocity.z > 0) && rb.linearVelocity.y < 0.01 )
+        {
+            PLAYBACK_STATE playbackState;
+            walkSFX.getPlaybackState(out playbackState);
+            if (playbackState.Equals(PLAYBACK_STATE.STOPPED))
+            {
+                walkSFX.start();
+            }
+        }
+        else
+        {
+            walkSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         }
     }
 
