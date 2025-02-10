@@ -1061,7 +1061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9039978300060451980, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4065,6 +4065,10 @@ PrefabInstance:
     - target: {fileID: 9039978300060451980, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
       propertyPath: m_Name
       value: Box (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039978300060451980, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7449,7 +7453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1417002662}
-  originalBox: {fileID: 0}
+  originalBox: {fileID: 1183007696}
 --- !u!1 &1200540339
 GameObject:
   m_ObjectHideFlags: 0
@@ -7928,7 +7932,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1792905378}
-  originalBox: {fileID: 0}
+  originalBox: {fileID: 1300806046}
 --- !u!1 &1337108534
 GameObject:
   m_ObjectHideFlags: 0
@@ -8629,7 +8633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1183007696}
-  originalBox: {fileID: 0}
+  originalBox: {fileID: 1417002662}
 --- !u!43 &1462686577
 Mesh:
   m_ObjectHideFlags: 0
@@ -10199,7 +10203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1300806046}
-  originalBox: {fileID: 0}
+  originalBox: {fileID: 1792905378}
 --- !u!1 &1830366480 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9039978300060451980, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
@@ -10595,6 +10599,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1176464376}
+    - target: {fileID: 7999760988033242316, guid: e0ec200ffaf51d546b236a2d9901b4c0, type: 3}
+      propertyPath: NextScene
+      value: Level1Grayboxing
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
