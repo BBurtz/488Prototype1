@@ -181,11 +181,11 @@ public class BoxBehavior : MonoBehaviour
     private void MoveLinkedBox()
     {
         Vector3 basicVel = transform.GetComponent<Rigidbody>().linearVelocity;
-        Vector3 linkedVel = new Vector3(-basicVel.x, linkedBox.GetComponent<Rigidbody>().linearVelocity.y, -basicVel.z)*Time.deltaTime;
+        Vector3 linkedVel = new Vector3(-basicVel.x, linkedBox.GetComponent<Rigidbody>().linearVelocity.y, -basicVel.z);
         
-        //Something funky here and with adding force
         linkedVel = Vector3.ClampMagnitude(linkedVel, basicVel.magnitude);
-        linkedBox.GetComponent<Rigidbody>().AddForce(linkedVel, ForceMode.VelocityChange);
+        linkedBox.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        linkedBox.GetComponent<Rigidbody>().AddForce(linkedVel, ForceMode.Impulse);
     }
     /// <summary>
     /// Handles mirrored box movement in a grid. Throws an error if invalid movement is detected
