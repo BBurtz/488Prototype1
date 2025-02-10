@@ -79,7 +79,7 @@ public class DimensionTransition : MonoBehaviour
             DimensionFilter.color = AlternateDimensionColor;
         }
 
-        shiftSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Shift);
+        //shiftSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Shift);
     }
     private void Update()
     {
