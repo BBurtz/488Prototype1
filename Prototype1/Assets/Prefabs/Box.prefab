@@ -106,6 +106,9 @@ MonoBehaviour:
   gridSize: 1
   boxType: 1
   linkedBox: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 115
 --- !u!65 &2698854490614472189
 BoxCollider:
   m_ObjectHideFlags: 0
