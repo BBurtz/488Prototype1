@@ -83,14 +83,14 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         //audio
-        walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
-        jumpSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Jump);
+        //walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
+        //jumpSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Jump);
     }
     private void Update()
     {
         //update sound location to stay on player
-        walkSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
-        jumpSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        //walkSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        //jumpSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     private void OnEnable()
