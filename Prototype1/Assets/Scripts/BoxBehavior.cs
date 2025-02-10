@@ -19,7 +19,7 @@ using static TreadmillBehavior;
 public class BoxBehavior : MonoBehaviour
 {
     #region Variables
-    [SerializeField, Range(.25f, 5), Tooltip("How wide the box is in Unity units")]
+    [Range(.25f, 5), Tooltip("How wide the box is in Unity units")]
     private float boxWidth = 1f;        //Stores the size of the box. Used for calculations
     [SerializeField, Range(.5f, 3), Tooltip("The grid size, in Unity units. Should be at least half the box width.")]
     private float gridSize = .5f;       //Stores the size of the grid. Used for movement and calculations
@@ -61,6 +61,7 @@ public class BoxBehavior : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        boxWidth = transform.localScale.x;
         forceTimeBeforeMove = 1f * gridSize * boxWidth;
     }
 
@@ -175,12 +176,11 @@ public class BoxBehavior : MonoBehaviour
                 break;
                 
         }
+        Debug.Log(gameObject.name + ": " + forceDir);
         //Set the modified position
         bool theCheck = OverlapCheck(this.gameObject, forceDir);
-
         if(theCheck == false)
         {
-            Debug.Log("Raycasted and NOT found object.");
             //If this object has a link in the other world, call the linked box movement
             if (linkedBox != null)
             {
@@ -201,7 +201,6 @@ public class BoxBehavior : MonoBehaviour
         {
             Debug.Log("Cannot move");
         }
-
     }
 
     /// <summary>
