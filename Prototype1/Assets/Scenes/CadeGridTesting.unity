@@ -757,6 +757,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: boxesMoveFreely
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: pushToMoveBlocks
       value: 0
       objectReference: {fileID: 0}

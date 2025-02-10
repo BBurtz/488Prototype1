@@ -16,7 +16,7 @@ using System;
 using Unity.VisualScripting;
 using static TreadmillBehavior;
 
-public class BoxBehavior : MonoBehaviour
+public class OldBoxBehavior : MonoBehaviour
 {
     #region Variables
     [Range(.25f, 5), Tooltip("How wide the box is in Unity units")]
@@ -73,15 +73,20 @@ public class BoxBehavior : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         //Check if the object has player movement
-        if(other.GetComponent<PlayerMovement>() != null)
+        if (other.GetComponent<PlayerMovement>() != null)
         {
-            MoveLinkedBox();
             //If it does, check if the player pushes to move blocks
-           /* if (other.GetComponent<PlayerMovement>().BoxesMoveFreely)
+            if (other.GetComponent<PlayerMovement>().BoxesMoveFreely)
             {
-                //Debug.Log(transform.GetComponent<Rigidbody>().linearVelocity);
-                MoveLinkedBox();
-            }*/
+                //Increase the timer if they do
+                moveTimer += Time.deltaTime;
+
+                //If the timer is full, call the box push
+                if (moveTimer > forceTimeBeforeMove)
+                {
+                    CallMoveBox(other.gameObject);
+                }
+            }
         }
     }
 
@@ -93,19 +98,39 @@ public class BoxBehavior : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Check if the object has player movement
-        if(other.GetComponent<PlayerMovement>()!=null)
+        if (other.GetComponent<PlayerMovement>() != null)
         {
             //If it does, check if the player uses a key to move blocks
-            if(!other.GetComponent <PlayerMovement>().BoxesMoveFreely)
+            if (!other.GetComponent<PlayerMovement>().BoxesMoveFreely)
             {
                 //Add the current box to the player's box list
-                other.GetComponent<PlayerMovement>().BoxesInRange.Add(this);
+                //other.GetComponent<PlayerMovement>().BoxesInRange.Add(this);
             }
         }
     }
 
+    /// <summary>
+    /// A general function that handles box pushing
+    /// Gets the push direction and moves the box in the appropriate direction
+    /// Handles calls to linked boxes
+    /// </summary>
+    /// <param name="player">A reference to the player object</param>
+    public void CallMoveBox(GameObject player)
+    {
+        //Calculate the difference in position between this object and the next
+        Vector2 difference = new Vector2(transform.position.x - player.transform.position.x, transform.position.z - player.transform.position.z);
 
-    
+        //Determine what direction the force is mainly coming from. Checks if x force > y force (using the absolute value to handle negatives)
+        //Checks the polarity of the stronger coordinate and sets the force direction
+        forceDirection forceDir = (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) ? (difference.x > 0 ? forceDirection.POSX : forceDirection.NEGX)
+            : (difference.y > 0 ? forceDirection.POSZ : forceDirection.NEGZ));
+
+        //Moves the box
+        MoveBox(forceDir);
+
+    }
+
+
     /// <summary>
     /// Resets movement timer if the player exits the trigger
     /// </summary>
@@ -113,9 +138,9 @@ public class BoxBehavior : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         moveTimer = 0;
-        if(other.GetComponent<PlayerMovement>()!=null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
+        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
-            other.gameObject.GetComponent<PlayerMovement>().BoxesInRange.Remove(this);
+            //other.gameObject.GetComponent<PlayerMovement>().BoxesInRange.Remove(this);
         }
     }
 
@@ -149,12 +174,12 @@ public class BoxBehavior : MonoBehaviour
             default:
                 Debug.LogError("Invalid Movement Direction Detected!");
                 break;
-                
+
         }
         Debug.Log(gameObject.name + ": " + forceDir);
         //Set the modified position
         bool theCheck = OverlapCheck(this.gameObject, forceDir);
-        if(theCheck == false)
+        if (theCheck == false)
         {
             //If this object has a link in the other world, call the linked box movement
             if (linkedBox != null)
@@ -178,15 +203,6 @@ public class BoxBehavior : MonoBehaviour
         }
     }
 
-    private void MoveLinkedBox()
-    {
-        Vector3 basicVel = transform.GetComponent<Rigidbody>().linearVelocity;
-        Vector3 linkedVel = new Vector3(-basicVel.x, linkedBox.GetComponent<Rigidbody>().linearVelocity.y, -basicVel.z)*Time.deltaTime;
-        
-        //Something funky here and with adding force
-        linkedVel = Vector3.ClampMagnitude(linkedVel, basicVel.magnitude);
-        linkedBox.GetComponent<Rigidbody>().AddForce(linkedVel, ForceMode.VelocityChange);
-    }
     /// <summary>
     /// Handles mirrored box movement in a grid. Throws an error if invalid movement is detected
     /// </summary>
@@ -196,7 +212,7 @@ public class BoxBehavior : MonoBehaviour
         //Pretty much copy the same as above, but flip the signs
         //Change the transform.position to that of the linked box
         //It should work and create parity. However, no checks are in place
-        
+
         moveTimer = 0;
         Vector3 linkedModifiedPos = linkedBox.transform.position;
 
@@ -301,7 +317,7 @@ public class BoxBehavior : MonoBehaviour
 
         RaycastHit rh;
         Debug.DrawRay(box.transform.position, castDir, Color.red);
-        bool hit = Physics.Raycast(box.transform.position, castDir*1, out rh, 1, layerMask);
+        bool hit = Physics.Raycast(box.transform.position, castDir * 1, out rh, 1, layerMask);
 
         return hit;
     }
@@ -317,7 +333,7 @@ public class BoxBehavior : MonoBehaviour
     private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadDir)
     {
         //Sets up an infinite loop, but safely
-        while(true)
+        while (true)
         {
             //Yeah, I copied previous movement code for this. How can you tell?
             //Declares and initializes a variable to hold modified position

@@ -40,8 +40,10 @@ public class PlayerMovement : MonoBehaviour
     private InputAction JumpAction;
     private InputAction ResetAction;
 
-    [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
+    [ Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
+    [SerializeField, Tooltip("True if boxes freely move. False if grid system is used.")]
+    private bool boxesMoveFreely = false;
     [Tooltip("All boxes the player is currently in range of. All will move with 'E' if previous is False.")]
     public List<BoxBehavior> BoxesInRange = new List<BoxBehavior>();
     public List<BoxCreationDestruction> CDInRange = new List<BoxCreationDestruction>();
@@ -64,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     private EventInstance jumpSFX;
     
 
-    public bool PushToMoveBlocks { get => pushToMoveBlocks;}
+    public bool BoxesMoveFreely { get => boxesMoveFreely; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -165,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
         //Probably having this call a function in a different script would be the best
         foreach (BoxBehavior bb in BoxesInRange)
         {
-            bb.CallMoveBox(gameObject);
+            //bb.CallMoveBox(gameObject);
         }
     }
 

@@ -63,7 +63,7 @@ public class BoxCreationDestruction : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Check if the object has player movement
-        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
                 //Add the current box to the player's box list
                 other.GetComponent<PlayerMovement>().CDInRange.Add(this);
@@ -71,7 +71,7 @@ public class BoxCreationDestruction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
             other.gameObject.GetComponent<PlayerMovement>().CDInRange.Remove(this);
         }
