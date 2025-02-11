@@ -246,20 +246,15 @@ public class OldBoxBehavior : MonoBehaviour
         {
             case forceDirection.POSX:
                 return forceDirection.NEGX;
-                break;
             case forceDirection.NEGX:
                 return forceDirection.POSX;
-                break;
             case forceDirection.POSZ:
                 return forceDirection.NEGZ;
-                break;
             case forceDirection.NEGZ:
                 return forceDirection.POSZ;
-                break;
             default:
                 Debug.LogError("Invalid Movement Direction Detected!");
                 return 0;
-                break;
 
         }
 

@@ -230,20 +230,15 @@ public class BoxBehavior : MonoBehaviour
         {
             case forceDirection.POSX:
                 return forceDirection.NEGX;
-                break;
             case forceDirection.NEGX:
                 return forceDirection.POSX;
-                break;
             case forceDirection.POSZ:
                 return forceDirection.NEGZ;
-                break;
             case forceDirection.NEGZ:
                 return forceDirection.POSZ;
-                break;
             default:
                 Debug.LogError("Invalid Movement Direction Detected!");
                 return 0;
-                break;
 
         }
 
@@ -261,6 +256,7 @@ public class BoxBehavior : MonoBehaviour
         if (isOnTreadmill)
         {
             StopCoroutine(treadmillMovementCoroutine);
+            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         }
         //Otherwise, start its treadmill movement
         else
@@ -314,44 +310,53 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="treadDir">The direction of movement, as a treadmillDirection enum.</param>
     /// Don't ask why one variable name, but not the other, changed from the last function. I'm tired.
     /// <returns></returns>
-    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadDir)
+    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
     {
+
+        print("Called");
         //Sets up an infinite loop, but safely
-        while(true)
+        while (true)
         {
-            //Yeah, I copied previous movement code for this. How can you tell?
-            //Declares and initializes a variable to hold modified position
-            Vector3 modifiedPos = transform.position;
+            //Declares and initializes a variable to hold the velocity direction
+            Vector3 treadmillVel = Vector3.zero;
 
-            //Checks the movement direction and adjusts the corresponding value of modifiedPos.
-            //Throws an error if there is an invalid movement type
-            switch (treadDir)
+            //Checks the treadmill direction and adjusts the corresponding value of treadmillVel.
+
+            if (treadmillDir == TreadmillBehavior.treadmillDirection.POSZ)
             {
-                case TreadmillBehavior.treadmillDirection.POSX:
-                    modifiedPos.x += gridSize;
-                    break;
-                case TreadmillBehavior.treadmillDirection.NEGX:
-                    modifiedPos.x -= gridSize;
-                    break;
-                case TreadmillBehavior.treadmillDirection.POSZ:
-                    modifiedPos.z += gridSize;
-                    break;
-                case TreadmillBehavior.treadmillDirection.NEGZ:
-                    modifiedPos.z -= gridSize;
-                    break;
-                default:
-                    Debug.LogError("Invalid Treadmill Direction Detected!");
-                    break;
-
+                treadmillVel.z += speed;
+            }
+            else if (treadmillDir == TreadmillBehavior.treadmillDirection.NEGZ)
+            {
+                treadmillVel.z -= speed;
+            }
+            else if (treadmillDir == TreadmillBehavior.treadmillDirection.POSX)
+            {
+                treadmillVel.x += speed;
+            }
+            else
+            {
+                treadmillVel.x -= speed;
             }
 
-            //Set the modified position
-            transform.position = modifiedPos;
+            Rigidbody rb = GetComponent<Rigidbody>();
 
-            //Wait 1/speed seconds. This way, faster speeds move faster. Slower speeds move slower.
-            yield return new WaitForSeconds(1.0f / speed);
+            Vector3 moveDirection = rb.linearVelocity;
+            moveDirection += treadmillVel;
+            rb.AddForce(moveDirection.normalized * speed * 10f, ForceMode.Force);
+            //Wow so much change
+
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (flatVel.magnitude > speed)
+            {
+                Vector3 limitedVel = flatVel.normalized * speed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
+            
+            yield return null;
         }
     }
+}
 
     #endregion
-}
+
