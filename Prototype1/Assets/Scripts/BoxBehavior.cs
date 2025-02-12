@@ -28,6 +28,8 @@ public class BoxBehavior : MonoBehaviour
     [SerializeField, Tooltip("The related box in the other dimension. Must be filled out on both boxes. If no linked object, leave blank.")]
     private GameObject linkedBox;       //Stores the linked box, should it have one
     [SerializeField] private LayerMask layerMask;
+    [SerializeField, Tooltip("How much buffer space each box is given in terms of collisions"), Range(0f,1f)]
+    private float buffer;
 
     private float moveTimer;            //An internal timer to track how long force has been applied
     private float forceTimeBeforeMove;  //The calculated value for how much time should elapse before the box moves
@@ -75,7 +77,14 @@ public class BoxBehavior : MonoBehaviour
         //Check if the object has player movement
         if(other.GetComponent<PlayerMovement>() != null)
         {
-            MoveLinkedBox();
+            if (OverlapCheck(linkedBox))
+            {
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else
+            {
+                MoveLinkedBox();
+            }
             //If it does, check if the player pushes to move blocks
            /* if (other.GetComponent<PlayerMovement>().BoxesMoveFreely)
             {
@@ -117,66 +126,11 @@ public class BoxBehavior : MonoBehaviour
         {
             other.gameObject.GetComponent<PlayerMovement>().BoxesInRange.Remove(this);
         }
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    /// <summary>
-    /// Handles box movement in a grid. Throws an error if invalid movement is detected. 
-    /// </summary>
-    /// <param name="forceDir">The direction force is being applied from</param>
-    private void MoveBox(forceDirection forceDir)
-    {
-        moveTimer = 0;
-        Vector3 modifiedPos = transform.position;
-        //You will note in all cases it applies force in the opposite direction from the applied from. 
-        //If force is applied from positive x, the box should move in a negative x, and so on and so forth
 
-        //Checks the movement direction and adjusts the corresponding value of modifiedPos.
-        //Throws an error if there is an invalid movement type
-        switch (forceDir)
-        {
-            case forceDirection.POSX:
-                modifiedPos.x += gridSize;
-                break;
-            case forceDirection.NEGX:
-                modifiedPos.x -= gridSize;
-                break;
-            case forceDirection.POSZ:
-                modifiedPos.z += gridSize;
-                break;
-            case forceDirection.NEGZ:
-                modifiedPos.z -= gridSize;
-                break;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                break;
-                
-        }
-        Debug.Log(gameObject.name + ": " + forceDir);
-        //Set the modified position
-        bool theCheck = OverlapCheck(this.gameObject, forceDir);
-        if(theCheck == false)
-        {
-            //If this object has a link in the other world, call the linked box movement
-            if (linkedBox != null)
-            {
-                forceDirection temp = switchDir(forceDir);
-                if (!OverlapCheck(linkedBox, temp))
-                {
-                    //Move the linked box
-                    transform.position = modifiedPos;
-                    MoveLinkedBox(forceDir);
-                }
-            }
-            else
-            {
-                transform.position = modifiedPos;
-            }
-        }
-        else
-        {
-            Debug.Log("Cannot move");
-        }
-    }
 
     private void MoveLinkedBox()
     {
@@ -186,62 +140,6 @@ public class BoxBehavior : MonoBehaviour
         linkedVel = Vector3.ClampMagnitude(linkedVel, basicVel.magnitude);
         linkedBox.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         linkedBox.GetComponent<Rigidbody>().AddForce(linkedVel, ForceMode.Impulse);
-    }
-    /// <summary>
-    /// Handles mirrored box movement in a grid. Throws an error if invalid movement is detected
-    /// </summary>
-    /// <param name="forceDir"></param>
-    private void MoveLinkedBox(forceDirection forceDir)
-    {
-        //Pretty much copy the same as above, but flip the signs
-        //Change the transform.position to that of the linked box
-        //It should work and create parity. However, no checks are in place
-        
-        moveTimer = 0;
-        Vector3 linkedModifiedPos = linkedBox.transform.position;
-
-        switch (forceDir)
-        {
-            case forceDirection.POSX:
-                linkedModifiedPos.x -= gridSize;
-                break;
-            case forceDirection.NEGX:
-                linkedModifiedPos.x += gridSize;
-                break;
-            case forceDirection.POSZ:
-                linkedModifiedPos.z -= gridSize;
-                break;
-            case forceDirection.NEGZ:
-                linkedModifiedPos.z += gridSize;
-                break;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                break;
-
-        }
-        //Set the modified position
-        linkedBox.transform.position = linkedModifiedPos;
-
-    }
-
-    private forceDirection switchDir(forceDirection originalForce)
-    {
-        switch (originalForce)
-        {
-            case forceDirection.POSX:
-                return forceDirection.NEGX;
-            case forceDirection.NEGX:
-                return forceDirection.POSX;
-            case forceDirection.POSZ:
-                return forceDirection.NEGZ;
-            case forceDirection.NEGZ:
-                return forceDirection.POSZ;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                return 0;
-
-        }
-
     }
 
     /// <summary>
@@ -271,35 +169,23 @@ public class BoxBehavior : MonoBehaviour
         isOnTreadmill = !isOnTreadmill;
     }
 
-    private bool OverlapCheck(GameObject box, forceDirection forceDir)
+    private bool OverlapCheck(GameObject box)
     {
-        Vector3 castDir = Vector3.zero;
+        Vector3 castDir = -1*this.GetComponent<Rigidbody>().linearVelocity;
+        castDir.y = 0;
+        castDir.z += (castDir.z < 0? -1  : 1) * boxWidth / 2.0f + buffer;
+        castDir.x += (castDir.z < 0 ? -1 : 1) * boxWidth / 2.0f + buffer;
 
-        switch (forceDir)
-        {
-            case forceDirection.POSX:
-                castDir.x += gridSize;
-                break;
-            case forceDirection.NEGX:
-                castDir.x -= gridSize;
-                break;
-            case forceDirection.POSZ:
-                castDir.z += gridSize;
-                break;
-            case forceDirection.NEGZ:
-                castDir.z -= gridSize;
-                break;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                break;
-
-        }
 
         RaycastHit rh;
         Debug.DrawRay(box.transform.position, castDir, Color.red);
-        bool hit = Physics.Raycast(box.transform.position, castDir*1, out rh, 1, layerMask);
+        Physics.Raycast(box.transform.position, castDir, out rh, 1, layerMask);
 
-        return hit;
+        if(rh.distance <= boxWidth/2 + buffer)
+        {
+            return false;
+        }
+        return true;
     }
 
 
