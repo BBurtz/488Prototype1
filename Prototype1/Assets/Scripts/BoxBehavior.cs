@@ -36,6 +36,7 @@ public class BoxBehavior : MonoBehaviour
 
     private bool isOnTreadmill = false;     //An internal bool used to check whether the box should be moving automatically or not
     private Coroutine treadmillMovementCoroutine;       //Storage for the treadmill coroutine
+    private Coroutine linkedTreadmillMovementCoroutine;       //Storage for the treadmill coroutine
 
     /// <summary>
     /// Holds the different movement directions in a more readable way
@@ -164,12 +165,24 @@ public class BoxBehavior : MonoBehaviour
         if (isOnTreadmill)
         {
             StopCoroutine(treadmillMovementCoroutine);
+            if (linkedBox != null)
+            {
+
+                StopCoroutine(linkedTreadmillMovementCoroutine);
+                linkedBox.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            }
             GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         }
         //Otherwise, start its treadmill movement
         else
         {
-            treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir));
+            treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir, gameObject));
+            if(linkedBox!=null)
+            {
+
+                linkedTreadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, switchDir(treadmillDir), linkedBox));
+            }
+
         }
 
         //I SO wanted to do that as a conditional operator. I should have. Hello, welcome to "Cade is Sleepy and has No
@@ -177,6 +190,25 @@ public class BoxBehavior : MonoBehaviour
 
         //Toggle the variable state
         isOnTreadmill = !isOnTreadmill;
+    }
+    private treadmillDirection switchDir(treadmillDirection originalForce)
+    {
+        switch (originalForce)
+        {
+            case treadmillDirection.POSX:
+                return treadmillDirection.NEGX;
+            case treadmillDirection.NEGX:
+                return treadmillDirection.POSX;
+            case treadmillDirection.POSZ:
+                return treadmillDirection.NEGZ;
+            case treadmillDirection.NEGZ:
+                return treadmillDirection.POSZ;
+            default:
+                Debug.LogError("Invalid Movement Direction Detected!");
+                return 0;
+
+        }
+
     }
 
     private bool OverlapCheck(GameObject box)
@@ -206,7 +238,7 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="treadDir">The direction of movement, as a treadmillDirection enum.</param>
     /// Don't ask why one variable name, but not the other, changed from the last function. I'm tired.
     /// <returns></returns>
-    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadmillDir)
+    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadmillDir, GameObject box)
     {
 
         print("Called");
@@ -235,7 +267,7 @@ public class BoxBehavior : MonoBehaviour
                 treadmillVel.x -= speed;
             }
 
-            Rigidbody rb = GetComponent<Rigidbody>();
+            Rigidbody rb = box.GetComponent<Rigidbody>();
 
             Vector3 moveDirection = rb.linearVelocity;
             moveDirection += treadmillVel;
@@ -252,6 +284,7 @@ public class BoxBehavior : MonoBehaviour
             yield return null;
         }
     }
+
 }
 
     #endregion
