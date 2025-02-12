@@ -72,11 +72,16 @@ public class BoxBehavior : MonoBehaviour
     /// Only calls the timer if PushToMoveBlocks is enabled
     /// </summary>
     /// <param name="other">The object in the trigger</param>
-    private void OnTriggerStay(Collider other)
+    private void OnCollisionStay(Collision collision)
     {
         //Check if the object has player movement
-        if(other.GetComponent<PlayerMovement>() != null)
+        if(collision.gameObject.GetComponent<PlayerMovement>() != null)
         {
+            if (boxType == boxMaterial.WOOD)
+            {
+                return;
+            }
+
             if (OverlapCheck(linkedBox))
             {
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
@@ -134,6 +139,11 @@ public class BoxBehavior : MonoBehaviour
 
     private void MoveLinkedBox()
     {
+        if (linkedBox == null)
+        {
+            return;
+        }
+
         Vector3 basicVel = transform.GetComponent<Rigidbody>().linearVelocity;
         Vector3 linkedVel = new Vector3(-basicVel.x, linkedBox.GetComponent<Rigidbody>().linearVelocity.y, -basicVel.z);
         
