@@ -3680,6 +3680,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.00000041292515
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.036462292
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9863233
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.024241738
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.16298056
+      objectReference: {fileID: 0}
+    - target: {fileID: 3524800363045647115, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.004005716
+      objectReference: {fileID: 0}
     - target: {fileID: 3600398884668432939, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
       propertyPath: m_Name
       value: PlayerKit
@@ -5931,6 +5959,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1504032216}
   originalBox: {fileID: 1209884687}
+  origM: {fileID: 0}
+  deactiveM: {fileID: 0}
+  isActive: 0
+  floorCollider: {fileID: 1832202585}
+  MirrorAlongX: 0
+  sizeOfCollisionScan: {x: 0, y: 0, z: 0}
 --- !u!43 &1212265516
 Mesh:
   m_ObjectHideFlags: 0
@@ -6216,6 +6250,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1472310527}
   originalBox: {fileID: 1226113626}
+  origM: {fileID: 0}
+  deactiveM: {fileID: 0}
+  isActive: 0
+  floorCollider: {fileID: 0}
+  MirrorAlongX: 0
+  sizeOfCollisionScan: {x: 0, y: 0, z: 0}
 --- !u!43 &1254128091
 Mesh:
   m_ObjectHideFlags: 0
@@ -7110,7 +7150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462523273}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13979167, y: -0.0134864105, z: -0.001904164, w: 0.9900873}
+  m_LocalRotation: {x: -0.020187952, y: -0.5698421, z: -0.014005514, w: 0.8213868}
   m_LocalPosition: {x: -21.963556, y: 1.5, z: 3.998898}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7313,6 +7353,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1226113626}
   originalBox: {fileID: 1472310527}
+  origM: {fileID: 0}
+  deactiveM: {fileID: 0}
+  isActive: 0
+  floorCollider: {fileID: 0}
+  MirrorAlongX: 0
+  sizeOfCollisionScan: {x: 0, y: 0, z: 0}
 --- !u!1001 &1504032215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7433,6 +7479,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linkedBox: {fileID: 1209884687}
   originalBox: {fileID: 1504032216}
+  origM: {fileID: 0}
+  deactiveM: {fileID: 0}
+  isActive: 0
+  floorCollider: {fileID: 1832202585}
+  MirrorAlongX: 0
+  sizeOfCollisionScan: {x: 0, y: 0, z: 0}
 --- !u!1 &1514302072
 GameObject:
   m_ObjectHideFlags: 0
