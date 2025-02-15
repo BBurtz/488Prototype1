@@ -40,8 +40,10 @@ public class PlayerMovement : MonoBehaviour
     private InputAction JumpAction;
     private InputAction ResetAction;
 
-    [SerializeField, Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
+    [ Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
+    [SerializeField, Tooltip("True if boxes freely move. False if grid system is used.")]
+    private bool boxesMoveFreely = false;
     [Tooltip("All boxes the player is currently in range of. All will move with 'E' if previous is False.")]
     public List<BoxBehavior> BoxesInRange = new List<BoxBehavior>();
     public List<BoxCreationDestruction> CDInRange = new List<BoxCreationDestruction>();
@@ -64,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     private EventInstance jumpSFX;
     
 
-    public bool PushToMoveBlocks { get => pushToMoveBlocks;}
+    public bool BoxesMoveFreely { get => boxesMoveFreely; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -78,8 +80,8 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        dimensionTransition = FindObjectOfType<DimensionTransition>();
-        boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
+        dimensionTransition = FindFirstObjectByType<DimensionTransition>();
+        //boxCreationDestruction = FindObjectOfType<BoxCreationDestruction>();
         Cursor.lockState = CursorLockMode.Locked;
 
         //audio
@@ -165,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
         //Probably having this call a function in a different script would be the best
         foreach (BoxBehavior bb in BoxesInRange)
         {
-            bb.CallMoveBox(gameObject);
+            //bb.CallMoveBox(gameObject);
         }
     }
 
@@ -302,13 +304,13 @@ public class PlayerMovement : MonoBehaviour
             var c = MoveVal;
             Vector3 moveDirection = Camera.transform.forward * c.y + Camera.transform.right * c.x + treadmillVel;
             moveDirection.y = 0;
-            rb.AddForce(moveDirection.normalized * moveSpeed * speed * 10f, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * speed * 10f, ForceMode.Force);
             //Wow so much change
 
             Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-            if (flatVel.magnitude > moveSpeed)
+            if (flatVel.magnitude > speed)
             {
-                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                Vector3 limitedVel = flatVel.normalized * speed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
 

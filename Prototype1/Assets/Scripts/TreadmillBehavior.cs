@@ -24,7 +24,7 @@ public class TreadmillBehavior : MonoBehaviour
     private treadmillDirection treadmillDir;
     [SerializeField, Tooltip("Material for a treadmill. Will override any other materials.")]
     private Material treadmillMaterial;
-    [UnityEngine.Range(0.5f, 10), Tooltip("How fast the treadmill moves.")]
+    [UnityEngine.Range(1f, 20), Tooltip("How fast the treadmill moves.")]
     public float speed;
 
     /*[Header("Linked Treadmill Values")]

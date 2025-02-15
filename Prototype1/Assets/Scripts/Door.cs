@@ -14,11 +14,15 @@ public class Door : MonoBehaviour
 
     //Door Mesh Renderer
     private MeshRenderer mr;
+    private BoxCollider bc;
 
-
+    /// <summary>
+    /// Get Components
+    /// </summary>
     private void Start()
     {
        mr = gameObject.GetComponent<MeshRenderer>();
+       bc = gameObject.GetComponent<BoxCollider>();
     }
 
     /// <summary>
@@ -26,6 +30,7 @@ public class Door : MonoBehaviour
     /// </summary>
     public void OpenDoor()
     {
+        bc.enabled = true;
         mr.material = HalfOpacityMaterial;
     }
 

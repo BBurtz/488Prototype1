@@ -16,54 +16,48 @@ public class BoxCreationDestruction : MonoBehaviour
     [SerializeField] private Material origM;
     [SerializeField] private Material deactiveM;
     [SerializeField] bool isActive;
+    [SerializeField] private Collider floorCollider;
+    [Tooltip("Mirrors Across X or Z Axis - true is X.")]
+    public bool MirrorAlongX;
+    [Tooltip("How large the overlap box checks for collisions when shifting.")]
+    public Vector3 sizeOfCollisionScan;
 
-    
+    private Vector3 floorLength;
+    private Vector3 floorWidthAcrossX;
+    private bool inNormalDimension = true;
+    private Vector3 calculatedLocation;
+
+    private void Start()
+    {
+        floorLength = floorCollider.bounds.size;
+        floorWidthAcrossX = new Vector3(0, 0, (floorLength.z - 1) / 2);
+        //floorWidthAcrossZ = new Vector3((floorLength.x - 1) / 2, 0, 0);
+    }
+
     public void destroyBox()
     {
-        PlayerMovement pm = FindFirstObjectByType<PlayerMovement>();
-        if (originalBox.activeInHierarchy && !linkedBox.activeInHierarchy)
-        {
-            linkedBox.SetActive(true);
-            originalBox.SetActive(false);
-            pm.CDInRange.Remove(originalBox.GetComponent<BoxCreationDestruction>());
-            pm.BoxesInRange.Remove(originalBox.GetComponent<BoxBehavior>());
 
-            Debug.Log("Does destroying original work?");
-        }
-        else if (!originalBox.activeInHierarchy && linkedBox.activeInHierarchy)
-        {
-            originalBox.SetActive(true);
-            linkedBox.SetActive(false);
-            pm.CDInRange.Remove(linkedBox.GetComponent<BoxCreationDestruction>());
-            pm.BoxesInRange.Remove(linkedBox.GetComponent<BoxBehavior>());
+        //shiftSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
-        }
-        else
+        //if nothing collides with the player
+        if (!isInBox())
         {
-            Debug.LogWarning("Warning! Make sure one of the boxes is inactive in the hierarchy");
+            originalBox.transform.position = calculatedLocation;
+            inNormalDimension = !inNormalDimension;
+        }
+
+        //if something collides with the player
+        else if (isInBox())
+        {
+            //CannotShift();
         }
     }
-    
-
-    /*public void destroyBox()
-    {
-        isActive = !isActive;
-        if(!isActive)
-        {
-            originalBox.GetComponent<MeshRenderer>().material = deactiveM;
-            linkedBox.GetComponent<MeshRenderer>().material = origM;
-        }
-        else
-        {
-            linkedBox.GetComponent<MeshRenderer>().material = deactiveM;
-            originalBox.GetComponent<MeshRenderer>().material = origM;
-        }
-    }*/
+ 
 
     private void OnTriggerEnter(Collider other)
     {
         //Check if the object has player movement
-        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        if (other.GetComponent<PlayerMovement>() != null && other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
                 //Add the current box to the player's box list
                 other.GetComponent<PlayerMovement>().CDInRange.Add(this);
@@ -71,32 +65,80 @@ public class BoxCreationDestruction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
             other.gameObject.GetComponent<PlayerMovement>().CDInRange.Remove(this);
         }
     }
 
-
-    /*public void destroyOriginalBox()
+    private Vector3 CalculateTransitionPoint()
     {
-        gameObject.SetActive(false);
-        createLinkedBox();
-    }*/
-
-    /*    public void createLinkedBox()
+        if (inNormalDimension)
         {
-            linkedBox.SetActive(true);
-        }*/
+            if (MirrorAlongX)
+            {
+                calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + (floorWidthAcrossX.z + 1) * -1));
+            }
 
-    /*    public void destroyLinkedBox()
-        {
-            linkedBox.SetActive(false);
-            createOriginalBox();
-        }*/
+            else
+            {
+                //calculatedLocation = new Vector3((originalBox.transform.position.x + (floorWidthAcrossZ.x + 1) * -1), playerPosition.position.y, playerPosition.position.z);
+            }
+        }
 
-    /*    public void createOriginalBox()
+        else if (!inNormalDimension)
         {
-            originalBox.SetActive(true);
-        }*/
+            if (MirrorAlongX)
+            {
+                calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + floorWidthAcrossX.z + 1));
+            }
+
+            else
+            {
+                //calculatedLocation = new Vector3((playerPosition.position.x + floorWidthAcrossZ.x + 1), playerPosition.position.y, playerPosition.position.z);
+            }
+        }
+
+        return calculatedLocation;
+    }
+
+    private bool isInBox()
+    {
+        CalculateTransitionPoint();
+
+        Collider[] colliders = { };
+        colliders = Physics.OverlapBox(calculatedLocation, sizeOfCollisionScan / 2, Quaternion.identity);
+
+        //if no collision
+        if (colliders.Length == 0)
+        {
+            return false;
+        }
+        //if collision
+        else
+        {
+            return true;
+        }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        if (originalBox.transform.position == null)
+        {
+            originalBox.transform.position = gameObject.transform.position;
+        }
+
+        CalculateTransitionPoint();
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(originalBox.transform.position, calculatedLocation);
+
+        if (isInBox())
+        {
+            Gizmos.color = Color.red;
+        }
+
+        Gizmos.DrawWireCube(calculatedLocation, sizeOfCollisionScan / 2);
+    }
 }

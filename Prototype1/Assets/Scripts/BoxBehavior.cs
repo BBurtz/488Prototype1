@@ -28,12 +28,15 @@ public class BoxBehavior : MonoBehaviour
     [SerializeField, Tooltip("The related box in the other dimension. Must be filled out on both boxes. If no linked object, leave blank.")]
     private GameObject linkedBox;       //Stores the linked box, should it have one
     [SerializeField] private LayerMask layerMask;
+    [SerializeField, Tooltip("How much buffer space each box is given in terms of collisions"), Range(0f,1f)]
+    private float buffer;
 
     private float moveTimer;            //An internal timer to track how long force has been applied
     private float forceTimeBeforeMove;  //The calculated value for how much time should elapse before the box moves
 
     private bool isOnTreadmill = false;     //An internal bool used to check whether the box should be moving automatically or not
     private Coroutine treadmillMovementCoroutine;       //Storage for the treadmill coroutine
+    private Coroutine linkedTreadmillMovementCoroutine;       //Storage for the treadmill coroutine
 
     /// <summary>
     /// Holds the different movement directions in a more readable way
@@ -70,23 +73,30 @@ public class BoxBehavior : MonoBehaviour
     /// Only calls the timer if PushToMoveBlocks is enabled
     /// </summary>
     /// <param name="other">The object in the trigger</param>
-    private void OnTriggerStay(Collider other)
+    private void OnCollisionStay(Collision collision)
     {
         //Check if the object has player movement
-        if(other.GetComponent<PlayerMovement>() != null)
+        if(collision.gameObject.GetComponent<PlayerMovement>() != null)
         {
-            //If it does, check if the player pushes to move blocks
-            if(other.GetComponent<PlayerMovement>().PushToMoveBlocks)
+            if (boxType == boxMaterial.WOOD)
             {
-                //Increase the timer if they do
-                moveTimer += Time.deltaTime;
-
-                //If the timer is full, call the box push
-                if (moveTimer > forceTimeBeforeMove)
-                {
-                    CallMoveBox(other.gameObject);
-                }
+                return;
             }
+
+            if (OverlapCheck(linkedBox))
+            {
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else
+            {
+                MoveLinkedBox();
+            }
+            //If it does, check if the player pushes to move blocks
+           /* if (other.GetComponent<PlayerMovement>().BoxesMoveFreely)
+            {
+                //Debug.Log(transform.GetComponent<Rigidbody>().linearVelocity);
+                MoveLinkedBox();
+            }*/
         }
     }
 
@@ -101,7 +111,7 @@ public class BoxBehavior : MonoBehaviour
         if(other.GetComponent<PlayerMovement>()!=null)
         {
             //If it does, check if the player uses a key to move blocks
-            if(!other.GetComponent <PlayerMovement>().PushToMoveBlocks)
+            if(!other.GetComponent <PlayerMovement>().BoxesMoveFreely)
             {
                 //Add the current box to the player's box list
                 other.GetComponent<PlayerMovement>().BoxesInRange.Add(this);
@@ -109,26 +119,6 @@ public class BoxBehavior : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// A general function that handles box pushing
-    /// Gets the push direction and moves the box in the appropriate direction
-    /// Handles calls to linked boxes
-    /// </summary>
-    /// <param name="player">A reference to the player object</param>
-    public void CallMoveBox(GameObject player)
-    {
-        //Calculate the difference in position between this object and the next
-        Vector2 difference = new Vector2(transform.position.x - player.transform.position.x, transform.position.z - player.transform.position.z);
-
-        //Determine what direction the force is mainly coming from. Checks if x force > y force (using the absolute value to handle negatives)
-        //Checks the polarity of the stronger coordinate and sets the force direction
-        forceDirection forceDir = (Mathf.Abs(difference.x) > Mathf.Abs(difference.y) ? (difference.x > 0 ? forceDirection.POSX : forceDirection.NEGX)
-            : (difference.y > 0 ? forceDirection.POSZ : forceDirection.NEGZ));
-
-        //Moves the box
-        MoveBox(forceDir);
-
-    }
 
     
     /// <summary>
@@ -138,131 +128,29 @@ public class BoxBehavior : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         moveTimer = 0;
-        if(other.GetComponent<PlayerMovement>()!=null && !other.gameObject.GetComponent<PlayerMovement>().PushToMoveBlocks)
+        if(other.GetComponent<PlayerMovement>()!=null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
             other.gameObject.GetComponent<PlayerMovement>().BoxesInRange.Remove(this);
         }
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
     }
 
-    /// <summary>
-    /// Handles box movement in a grid. Throws an error if invalid movement is detected. 
-    /// </summary>
-    /// <param name="forceDir">The direction force is being applied from</param>
-    private void MoveBox(forceDirection forceDir)
-    {
-        moveTimer = 0;
-        Vector3 modifiedPos = transform.position;
-        //You will note in all cases it applies force in the opposite direction from the applied from. 
-        //If force is applied from positive x, the box should move in a negative x, and so on and so forth
 
-        //Checks the movement direction and adjusts the corresponding value of modifiedPos.
-        //Throws an error if there is an invalid movement type
-        switch (forceDir)
-        {
-            case forceDirection.POSX:
-                modifiedPos.x += gridSize;
-                break;
-            case forceDirection.NEGX:
-                modifiedPos.x -= gridSize;
-                break;
-            case forceDirection.POSZ:
-                modifiedPos.z += gridSize;
-                break;
-            case forceDirection.NEGZ:
-                modifiedPos.z -= gridSize;
-                break;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                break;
-                
-        }
-        Debug.Log(gameObject.name + ": " + forceDir);
-        //Set the modified position
-        bool theCheck = OverlapCheck(this.gameObject, forceDir);
-        if(theCheck == false)
-        {
-            //If this object has a link in the other world, call the linked box movement
-            if (linkedBox != null)
-            {
-                forceDirection temp = switchDir(forceDir);
-                if (!OverlapCheck(linkedBox, temp))
-                {
-                    //Move the linked box
-                    transform.position = modifiedPos;
-                    MoveLinkedBox(forceDir);
-                }
-            }
-            else
-            {
-                transform.position = modifiedPos;
-            }
-        }
-        else
-        {
-            Debug.Log("Cannot move");
-        }
-    }
 
-    /// <summary>
-    /// Handles mirrored box movement in a grid. Throws an error if invalid movement is detected
-    /// </summary>
-    /// <param name="forceDir"></param>
-    private void MoveLinkedBox(forceDirection forceDir)
+    private void MoveLinkedBox()
     {
-        //Pretty much copy the same as above, but flip the signs
-        //Change the transform.position to that of the linked box
-        //It should work and create parity. However, no checks are in place
+        if (linkedBox == null)
+        {
+            return;
+        }
+
+        Vector3 basicVel = transform.GetComponent<Rigidbody>().linearVelocity;
+        Vector3 linkedVel = new Vector3(-basicVel.x, linkedBox.GetComponent<Rigidbody>().linearVelocity.y, -basicVel.z);
         
-        moveTimer = 0;
-        Vector3 linkedModifiedPos = linkedBox.transform.position;
-
-        switch (forceDir)
-        {
-            case forceDirection.POSX:
-                linkedModifiedPos.x -= gridSize;
-                break;
-            case forceDirection.NEGX:
-                linkedModifiedPos.x += gridSize;
-                break;
-            case forceDirection.POSZ:
-                linkedModifiedPos.z -= gridSize;
-                break;
-            case forceDirection.NEGZ:
-                linkedModifiedPos.z += gridSize;
-                break;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                break;
-
-        }
-        //Set the modified position
-        linkedBox.transform.position = linkedModifiedPos;
-
-    }
-
-    private forceDirection switchDir(forceDirection originalForce)
-    {
-        switch (originalForce)
-        {
-            case forceDirection.POSX:
-                return forceDirection.NEGX;
-                break;
-            case forceDirection.NEGX:
-                return forceDirection.POSX;
-                break;
-            case forceDirection.POSZ:
-                return forceDirection.NEGZ;
-                break;
-            case forceDirection.NEGZ:
-                return forceDirection.POSZ;
-                break;
-            default:
-                Debug.LogError("Invalid Movement Direction Detected!");
-                return 0;
-                break;
-
-        }
-
+        linkedVel = Vector3.ClampMagnitude(linkedVel, basicVel.magnitude);
+        linkedBox.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+        linkedBox.GetComponent<Rigidbody>().AddForce(linkedVel, ForceMode.Impulse);
     }
 
     /// <summary>
@@ -277,11 +165,24 @@ public class BoxBehavior : MonoBehaviour
         if (isOnTreadmill)
         {
             StopCoroutine(treadmillMovementCoroutine);
+            if (linkedBox != null)
+            {
+
+                StopCoroutine(linkedTreadmillMovementCoroutine);
+                linkedBox.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+            }
+            GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         }
         //Otherwise, start its treadmill movement
         else
         {
-            treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir));
+            treadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, treadmillDir, gameObject));
+            if(linkedBox!=null)
+            {
+
+                linkedTreadmillMovementCoroutine = StartCoroutine(HandleTreadmillMovement(speed, switchDir(treadmillDir), linkedBox));
+            }
+
         }
 
         //I SO wanted to do that as a conditional operator. I should have. Hello, welcome to "Cade is Sleepy and has No
@@ -290,36 +191,43 @@ public class BoxBehavior : MonoBehaviour
         //Toggle the variable state
         isOnTreadmill = !isOnTreadmill;
     }
-
-    private bool OverlapCheck(GameObject box, forceDirection forceDir)
+    private treadmillDirection switchDir(treadmillDirection originalForce)
     {
-        Vector3 castDir = Vector3.zero;
-
-        switch (forceDir)
+        switch (originalForce)
         {
-            case forceDirection.POSX:
-                castDir.x += gridSize;
-                break;
-            case forceDirection.NEGX:
-                castDir.x -= gridSize;
-                break;
-            case forceDirection.POSZ:
-                castDir.z += gridSize;
-                break;
-            case forceDirection.NEGZ:
-                castDir.z -= gridSize;
-                break;
+            case treadmillDirection.POSX:
+                return treadmillDirection.NEGX;
+            case treadmillDirection.NEGX:
+                return treadmillDirection.POSX;
+            case treadmillDirection.POSZ:
+                return treadmillDirection.NEGZ;
+            case treadmillDirection.NEGZ:
+                return treadmillDirection.POSZ;
             default:
                 Debug.LogError("Invalid Movement Direction Detected!");
-                break;
+                return 0;
 
         }
 
+    }
+
+    private bool OverlapCheck(GameObject box)
+    {
+        Vector3 castDir = -1*this.GetComponent<Rigidbody>().linearVelocity;
+        castDir.y = 0;
+        castDir.z += (castDir.z < 0? -1  : 1) * boxWidth / 2.0f + buffer;
+        castDir.x += (castDir.z < 0 ? -1 : 1) * boxWidth / 2.0f + buffer;
+
+
         RaycastHit rh;
         Debug.DrawRay(box.transform.position, castDir, Color.red);
-        bool hit = Physics.Raycast(box.transform.position, castDir*1, out rh, 1, layerMask);
+        Physics.Raycast(box.transform.position, castDir, out rh, 1, layerMask);
 
-        return hit;
+        if(rh.distance <= boxWidth/2 + buffer)
+        {
+            return false;
+        }
+        return true;
     }
 
 
@@ -330,44 +238,54 @@ public class BoxBehavior : MonoBehaviour
     /// <param name="treadDir">The direction of movement, as a treadmillDirection enum.</param>
     /// Don't ask why one variable name, but not the other, changed from the last function. I'm tired.
     /// <returns></returns>
-    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadDir)
+    private IEnumerator HandleTreadmillMovement(float speed, TreadmillBehavior.treadmillDirection treadmillDir, GameObject box)
     {
+
+        print("Called");
         //Sets up an infinite loop, but safely
-        while(true)
+        while (true)
         {
-            //Yeah, I copied previous movement code for this. How can you tell?
-            //Declares and initializes a variable to hold modified position
-            Vector3 modifiedPos = transform.position;
+            //Declares and initializes a variable to hold the velocity direction
+            Vector3 treadmillVel = Vector3.zero;
 
-            //Checks the movement direction and adjusts the corresponding value of modifiedPos.
-            //Throws an error if there is an invalid movement type
-            switch (treadDir)
+            //Checks the treadmill direction and adjusts the corresponding value of treadmillVel.
+
+            if (treadmillDir == TreadmillBehavior.treadmillDirection.POSZ)
             {
-                case TreadmillBehavior.treadmillDirection.POSX:
-                    modifiedPos.x += gridSize;
-                    break;
-                case TreadmillBehavior.treadmillDirection.NEGX:
-                    modifiedPos.x -= gridSize;
-                    break;
-                case TreadmillBehavior.treadmillDirection.POSZ:
-                    modifiedPos.z += gridSize;
-                    break;
-                case TreadmillBehavior.treadmillDirection.NEGZ:
-                    modifiedPos.z -= gridSize;
-                    break;
-                default:
-                    Debug.LogError("Invalid Treadmill Direction Detected!");
-                    break;
-
+                treadmillVel.z += speed;
+            }
+            else if (treadmillDir == TreadmillBehavior.treadmillDirection.NEGZ)
+            {
+                treadmillVel.z -= speed;
+            }
+            else if (treadmillDir == TreadmillBehavior.treadmillDirection.POSX)
+            {
+                treadmillVel.x += speed;
+            }
+            else
+            {
+                treadmillVel.x -= speed;
             }
 
-            //Set the modified position
-            transform.position = modifiedPos;
+            Rigidbody rb = box.GetComponent<Rigidbody>();
 
-            //Wait 1/speed seconds. This way, faster speeds move faster. Slower speeds move slower.
-            yield return new WaitForSeconds(1.0f / speed);
+            Vector3 moveDirection = rb.linearVelocity;
+            moveDirection += treadmillVel;
+            rb.AddForce(moveDirection.normalized * speed * 10f, ForceMode.Force);
+            //Wow so much change
+
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (flatVel.magnitude > speed)
+            {
+                Vector3 limitedVel = flatVel.normalized * speed;
+                rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
+            }
+            
+            yield return null;
         }
     }
 
-    #endregion
 }
+
+    #endregion
+
