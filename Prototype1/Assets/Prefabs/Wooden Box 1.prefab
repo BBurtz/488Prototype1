@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 144.973
+      value: 130.83
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.1073856
+      value: -1.33
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -41.635
+      value: -43.52
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -80,6 +80,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -6267944536708171645, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5922258728505837520}
+    - targetCorrespondingSourceObject: {fileID: -6267944536708171645, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3106597751472128803}
   m_SourcePrefab: {fileID: 100100000, guid: 045adfbbc4f36374f9dda0e788e40ca4, type: 3}
 --- !u!1 &5625180087379566039 stripped
 GameObject:
@@ -153,7 +156,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 122
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5922258728505837520
 MonoBehaviour:
@@ -173,3 +176,21 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 115
+  buffer: 0
+--- !u!114 &3106597751472128803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5625180087379566039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d2b40ffa38a8547b3d848bd5f5ae42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalBox: {fileID: 5625180087379566039}
+  floorCollider: {fileID: 0}
+  MirrorAlongX: 1
+  sizeOfCollisionScan: {x: 1, y: 1, z: 1}
+  inNormalDimension: 1
