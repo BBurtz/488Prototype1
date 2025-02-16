@@ -11,11 +11,11 @@ using UnityEngine;
 
 public class BoxCreationDestruction : MonoBehaviour
 {
-    [SerializeField] private GameObject linkedBox;
+    //[SerializeField] private GameObject linkedBox;
     public  GameObject originalBox;
-    [SerializeField] private Material origM;
-    [SerializeField] private Material deactiveM;
-    [SerializeField] bool isActive;
+    //[SerializeField] private Material origM;
+    //[SerializeField] private Material deactiveM;
+    //[SerializeField] bool isActive;
     [SerializeField] private Collider floorCollider;
     [Tooltip("Mirrors Across X or Z Axis - true is X.")]
     public bool MirrorAlongX;
