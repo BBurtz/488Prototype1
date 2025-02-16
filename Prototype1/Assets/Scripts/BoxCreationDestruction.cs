@@ -24,7 +24,7 @@ public class BoxCreationDestruction : MonoBehaviour
 
     private Vector3 floorLength;
     private Vector3 floorWidthAcrossX;
-    private bool inNormalDimension = true;
+    [SerializeField] private bool inNormalDimension = true;
     private Vector3 calculatedLocation;
 
     private void Start()
@@ -65,7 +65,7 @@ public class BoxCreationDestruction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
+        if (other.GetComponent<PlayerMovement>() != null && other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
             other.gameObject.GetComponent<PlayerMovement>().CDInRange.Remove(this);
         }
