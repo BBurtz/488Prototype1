@@ -11,11 +11,11 @@ using UnityEngine;
 
 public class BoxCreationDestruction : MonoBehaviour
 {
-    [SerializeField] private GameObject linkedBox;
+    //[SerializeField] private GameObject linkedBox;
     public  GameObject originalBox;
-    [SerializeField] private Material origM;
-    [SerializeField] private Material deactiveM;
-    [SerializeField] bool isActive;
+    //[SerializeField] private Material origM;
+    //[SerializeField] private Material deactiveM;
+    //[SerializeField] bool isActive;
     [SerializeField] private Collider floorCollider;
     [Tooltip("Mirrors Across X or Z Axis - true is X.")]
     public bool MirrorAlongX;
@@ -24,7 +24,7 @@ public class BoxCreationDestruction : MonoBehaviour
 
     private Vector3 floorLength;
     private Vector3 floorWidthAcrossX;
-    private bool inNormalDimension = true;
+    [SerializeField] private bool inNormalDimension = true;
     private Vector3 calculatedLocation;
 
     private void Start()
@@ -65,7 +65,7 @@ public class BoxCreationDestruction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>() != null && !other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
+        if (other.GetComponent<PlayerMovement>() != null && other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
         {
             other.gameObject.GetComponent<PlayerMovement>().CDInRange.Remove(this);
         }
