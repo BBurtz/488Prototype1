@@ -108,7 +108,7 @@ MonoBehaviour:
   linkedBox: {fileID: 0}
   layerMask:
     serializedVersion: 2
-    m_Bits: 115
+    m_Bits: 0
 --- !u!65 &2698854490614472189
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -155,7 +155,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 122
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!64 &-3164137761403539395
 MeshCollider:
