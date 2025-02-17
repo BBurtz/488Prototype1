@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 3802444483346321774}
   - component: {fileID: 5426467877417625782}
   m_Layer: 0
-  m_Name: Level Complete
+  m_Name: Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,7 +170,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -24, y: 169}
+  m_AnchoredPosition: {x: -24, y: 151.3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3802444483346321774
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Level Complete
+  m_text: Pause
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -380,7 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -456,6 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d7df1f6f2c5de49b1f8aa2c0fb042e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseMenu: {fileID: 5521177878766867721}
 --- !u!1 &5103742722813069981
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +522,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Next Level
+  m_text: Resume
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -602,7 +603,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3356776047712331906}
   m_Layer: 0
-  m_Name: FinishScreen
+  m_Name: Pause
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -662,7 +663,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -47.113342, y: -33}
+  m_AnchoredPosition: {x: -47.113342, y: -14}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3112226665383846259
@@ -795,7 +796,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -47.113342, y: 21}
+  m_AnchoredPosition: {x: -47.113342, y: 30.6}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &323874722017310374
@@ -882,8 +883,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7732784318502911472}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: LoadScene
-        m_Mode: 3
+        m_MethodName: UnPause
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -926,31 +927,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35.621983
+      value: -0.00000041292515
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.66
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -150.3789
+      value: -0.036462292
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7000379
+      value: 0.9863233
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0729316
+      value: -0.024241738
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7065476
+      value: 0.16298056
       objectReference: {fileID: 0}
     - target: {fileID: 1421672715381097135, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.07360981
+      value: 0.004005716
       objectReference: {fileID: 0}
     - target: {fileID: 1488826388481131856, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: m_UiScaleMode
@@ -1030,7 +1031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2852265833679698475, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: PanAxis.Value
-      value: 18.765589
+      value: 18.765594
       objectReference: {fileID: 0}
     - target: {fileID: 2852265833679698475, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: TiltAxis.Value
@@ -1222,6 +1223,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: EndScrene
+      value: 
+      objectReference: {fileID: 5521177878766867721}
+    - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: PauseMenu
       value: 
       objectReference: {fileID: 5521177878766867721}
     - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
