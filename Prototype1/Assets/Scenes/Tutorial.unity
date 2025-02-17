@@ -5213,7 +5213,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalBox: {fileID: 840703701}
   floorCollider: {fileID: 0}
-  MirrorAlongX: 1
   sizeOfCollisionScan: {x: 1, y: 1, z: 1}
   inNormalDimension: 0
 --- !u!1 &889214611
@@ -5576,6 +5575,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: floorCollider
+      value: 
+      objectReference: {fileID: 1967044859}
+    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
       value: 120.32
@@ -5623,33 +5630,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5625180087379566039, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 912793100}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
---- !u!1 &912793099 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5625180087379566039, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-  m_PrefabInstance: {fileID: 912793098}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &912793100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912793099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37d2b40ffa38a8547b3d848bd5f5ae42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originalBox: {fileID: 912793099}
-  floorCollider: {fileID: 1967044859}
-  MirrorAlongX: 1
-  sizeOfCollisionScan: {x: 1, y: 1, z: 1}
-  inNormalDimension: 1
 --- !u!43 &1071544387
 Mesh:
   m_ObjectHideFlags: 0
@@ -6426,7 +6408,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalBox: {fileID: 1183007696}
   floorCollider: {fileID: 0}
-  MirrorAlongX: 0
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
   inNormalDimension: 1
 --- !u!1 &1208505532
@@ -6908,7 +6889,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalBox: {fileID: 1300806046}
   floorCollider: {fileID: 0}
-  MirrorAlongX: 0
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
   inNormalDimension: 1
 --- !u!1 &1311283377 stripped
@@ -7617,7 +7597,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalBox: {fileID: 1417002662}
   floorCollider: {fileID: 0}
-  MirrorAlongX: 0
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
   inNormalDimension: 1
 --- !u!43 &1462686577
@@ -7797,6 +7776,10 @@ PrefabInstance:
       propertyPath: floorCollider
       value: 
       objectReference: {fileID: 436625413}
+    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
       value: 130.83
@@ -8838,7 +8821,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalBox: {fileID: 1792905378}
   floorCollider: {fileID: 0}
-  MirrorAlongX: 0
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
   inNormalDimension: 1
 --- !u!43 &1850076425
