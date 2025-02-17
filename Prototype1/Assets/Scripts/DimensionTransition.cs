@@ -12,14 +12,6 @@ public class DimensionTransition : MonoBehaviour
 {
     [Header ("Design")]
 
-    [Tooltip ("Mirrors Across X or Z Axis - true is X.")]
-    public bool MirrorAlongX;
-
-    /*
-    [Tooltip("How far and which direction the player is sent if shifting into an object.")]
-    public Vector3 swappingCollisionOffset;
-    */
-
     [Tooltip("How large the overlap box checks for collisions when shifting.")]
     public Vector3 sizeOfCollisionScan;
 
@@ -40,11 +32,11 @@ public class DimensionTransition : MonoBehaviour
     [Tooltip("Floor collider, calculates the length of the room to shift appropriately.")]
     [SerializeField] private Collider floorCollider;
 
-    [Tooltip("WALLS AND FLOOR SHOULD BE ON THIS LAYER--Layer mask that is ignored when looking for collisions.")]
-    public LayerMask IgnoreWhenShifting;
-
     [Tooltip("Canvas image that controls the color overlays.")]
     public Image DimensionFilter;
+
+    [Tooltip("If player is in normal dimension or not. If player is teleporting the wrong way, try checking this if player goes wrong way.")]
+    [SerializeField] private bool inNormalDimension = true;
 
     //length of the floor
     private Vector3 floorLength;
@@ -52,12 +44,8 @@ public class DimensionTransition : MonoBehaviour
     private Transform playerPosition;
     //location where player will shift to
     private Vector3 calculatedLocation;
-    //if player is in normal or alternate dimension
-    private bool inNormalDimension = true;
     //for calculating mirroring across x axis
     private Vector3 floorWidthAcrossX;
-    //for calculating mirroring across z axis
-    private Vector3 floorWidthAcrossZ;
     //coroutine for color shifting
     private Coroutine colorCoroutine;
 
@@ -68,7 +56,6 @@ public class DimensionTransition : MonoBehaviour
         playerPosition = FindObjectOfType<PlayerMovement>().transform;
         floorLength = floorCollider.bounds.size;
         floorWidthAcrossX = new Vector3 (0, 0, (floorLength.z - 1) / 2);
-        floorWidthAcrossZ = new Vector3 ((floorLength.x - 1) / 2, 0, 0);
 
         if (inNormalDimension)
         {
@@ -126,28 +113,12 @@ public class DimensionTransition : MonoBehaviour
     {
         if (inNormalDimension)
         {
-            if (MirrorAlongX)
-            {
                 calculatedLocation = new Vector3 (playerPosition.position.x, playerPosition.position.y, (playerPosition.position.z + (floorWidthAcrossX.z + 1)*-1));
-            }
-
-            else
-            {
-                calculatedLocation = new Vector3((playerPosition.position.x + (floorWidthAcrossZ.x + 1)*-1), playerPosition.position.y, playerPosition.position.z);
-            }
         }
 
         else if (!inNormalDimension)
         {
-            if (MirrorAlongX)
-            {
                 calculatedLocation = new Vector3(playerPosition.position.x, playerPosition.position.y, (playerPosition.position.z + floorWidthAcrossX.z + 1));
-            }
-
-            else
-            {
-                calculatedLocation = new Vector3((playerPosition.position.x + floorWidthAcrossZ.x + 1), playerPosition.position.y, playerPosition.position.z);
-            }
         }
 
         return calculatedLocation;
@@ -162,7 +133,7 @@ public class DimensionTransition : MonoBehaviour
         CalculateTransitionPoint();
 
         Collider[] colliders = { };
-        colliders = Physics.OverlapBox(calculatedLocation, sizeOfCollisionScan / 2, Quaternion.identity, ~IgnoreWhenShifting);
+        colliders = Physics.OverlapBox(calculatedLocation, sizeOfCollisionScan / 2, Quaternion.identity);
 
         //if no collision
         if (colliders.Length == 0)
