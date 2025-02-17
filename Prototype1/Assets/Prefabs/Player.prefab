@@ -344,9 +344,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1421672715381097135}
   - component: {fileID: 6021335884955074532}
-  - component: {fileID: 373341970715764795}
   - component: {fileID: 840597097217759253}
   - component: {fileID: 4953833120834565222}
+  - component: {fileID: -1702194325396523691}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -421,14 +421,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &373341970715764795
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3090397894187504815}
-  m_Enabled: 1
 --- !u!114 &840597097217759253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -505,6 +497,19 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &-1702194325396523691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3090397894187504815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attenuationObject: {fileID: 0}
 --- !u!1 &5344240509553412374
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,8 +645,9 @@ MonoBehaviour:
   Camera: {fileID: 1601265637482726354}
   EndScrene: {fileID: 0}
   playerControls: {fileID: 5178863309105332826}
-  pushToMoveBlocks: 0
+  boxesMoveFreely: 0
   BoxesInRange: []
+  CDInRange: []
   boxCreationDestruction: {fileID: 0}
 --- !u!114 &5178863309105332826
 MonoBehaviour:
@@ -713,15 +719,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MirrorAlongX: 1
-  swappingCollisionOffset: {x: 0, y: 0, z: 3}
   sizeOfCollisionScan: {x: 1, y: 1, z: 1}
+  NormalDimensionColor: {r: 1, g: 1, b: 1, a: 0.039215688}
+  AlternateDimensionColor: {r: 0, g: 0, b: 0, a: 0.7254902}
+  CannotShiftColor: {r: 0, g: 0, b: 0, a: 0}
+  LengthOfCannotShiftColor: 0
   floorCollider: {fileID: 0}
   IgnoreWhenShifting:
     serializedVersion: 2
     m_Bits: 64
   DimensionFilter: {fileID: 1846955587328348935}
-  NormalDimensionColor: {r: 1, g: 1, b: 1, a: 0.039215688}
-  AlternateDimensionColor: {r: 0, g: 0, b: 0, a: 0.7254902}
 --- !u!1 &5453461395677092974
 GameObject:
   m_ObjectHideFlags: 0
