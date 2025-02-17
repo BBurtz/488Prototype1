@@ -85,14 +85,14 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         //audio
-        //walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
-        //jumpSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Jump);
+        walkSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Walk);
+        jumpSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Jump);
     }
     private void Update()
     {
         //update sound location to stay on player
-        //walkSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
-        //jumpSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        walkSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        jumpSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
     }
 
     private void OnEnable()
@@ -111,6 +111,18 @@ public class PlayerMovement : MonoBehaviour
         MoveAction.canceled += stop;
         InteractAction.started += interact;
         DestroyAction.started += destroy;
+    }
+    
+    private void OnDisable()
+    {
+        playerControls.DeactivateInput();
+        JumpAction.started -= Jump;
+        ResetAction.started -= Reload;
+        SwitchAction.started -= shift;
+        MoveAction.performed -= move;
+        MoveAction.canceled -= stop;
+        InteractAction.started -= interact;
+        DestroyAction.started -= destroy;
     }
 
     private void Reload(InputAction.CallbackContext context)
@@ -138,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
         }
+        UpdateWalkSFX();
     }
 
     private void Jump(InputAction.CallbackContext context)
@@ -319,7 +332,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void UpdateWalkSFX()
     {
-        if ((rb.linearVelocity.x > 0 || rb.linearVelocity.z > 0) && rb.linearVelocity.y < 0.01 )
+        if ((rb.linearVelocity.x > 0 || rb.linearVelocity.z > 0) && (rb.linearVelocity.y < 0.01 || rb.linearVelocity.y > -0.01))
         {
             PLAYBACK_STATE playbackState;
             walkSFX.getPlaybackState(out playbackState);
