@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject Camera;
     public GameObject EndScrene;
+    public GameObject PauseMenu;
 
     public PlayerInput playerControls;
 
@@ -39,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction DestroyAction;
     private InputAction JumpAction;
     private InputAction ResetAction;
+    private InputAction PauseAction;
 
     [ Tooltip("True if boxes move with pushing. False if 'E' is used to interact.")]
     private bool pushToMoveBlocks = false;
@@ -104,15 +106,24 @@ public class PlayerMovement : MonoBehaviour
         DestroyAction = playerControls.currentActionMap.FindAction("Destroy");
         JumpAction = playerControls.currentActionMap.FindAction("Jump");
         ResetAction = playerControls.currentActionMap.FindAction("Reload");
+        PauseAction = playerControls.currentActionMap.FindAction("Pause");
         JumpAction.started += Jump;
         ResetAction.started += Reload;
         SwitchAction.started += shift;
+        PauseAction.started += pause;
         MoveAction.performed += move;
         MoveAction.canceled += stop;
         InteractAction.started += interact;
         DestroyAction.started += destroy;
     }
-    
+
+    private void pause(InputAction.CallbackContext context)
+    {
+        PauseMenu.SetActive(true);
+        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void OnDisable()
     {
         playerControls.DeactivateInput();
@@ -121,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
         SwitchAction.started -= shift;
         MoveAction.performed -= move;
         MoveAction.canceled -= stop;
+        PauseAction.started -= pause;
         InteractAction.started -= interact;
         DestroyAction.started -= destroy;
     }
