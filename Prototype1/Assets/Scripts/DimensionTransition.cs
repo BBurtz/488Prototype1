@@ -66,11 +66,11 @@ public class DimensionTransition : MonoBehaviour
             DimensionFilter.color = AlternateDimensionColor;
         }
 
-        //shiftSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Shift);
+        shiftSFX = AudioManager.instance.CreateEventInstance(FMODEvents.instance.Shift);
     }
     private void Update()
     {
-        shiftSFX.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        shiftSFX.set3DAttributes(RuntimeUtils.To3DAttributes(playerPosition, GetComponent<Rigidbody>()));
     }
 
     /// <summary>
@@ -84,6 +84,7 @@ public class DimensionTransition : MonoBehaviour
         {
             playerPosition.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
+            shiftSFX.start();
         }
 
         //if something collides with the player
@@ -101,8 +102,7 @@ public class DimensionTransition : MonoBehaviour
         {
             DimensionFilter.color = AlternateDimensionColor;
         }
-        //play shift sfx, change this later on to have a different sound effect play when the player cannot shift dimensions
-        shiftSFX.start();
+
     }
 
     /// <summary>
