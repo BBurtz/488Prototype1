@@ -890,10 +890,6 @@ PrefabInstance:
       value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
-      propertyPath: boxesMoveFreely
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9003324829133427346, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: JumpAction.m_Name
       value: Jump
       objectReference: {fileID: 0}
@@ -5579,6 +5575,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: floorCollider
+      value: 
+      objectReference: {fileID: 1967044859}
+    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
       value: 120.32
@@ -5623,52 +5627,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wooden Box 1 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.x
-      value: 1.8154377
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.z
-      value: 1.867991
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Center.x
-      value: 0.50863516
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Center.z
-      value: -0.44740263
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5625180087379566039, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 912793100}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
---- !u!1 &912793099 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5625180087379566039, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-  m_PrefabInstance: {fileID: 912793098}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &912793100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912793099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37d2b40ffa38a8547b3d848bd5f5ae42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originalBox: {fileID: 912793099}
-  floorCollider: {fileID: 1967044859}
-  sizeOfCollisionScan: {x: 1, y: 0, z: 1}
-  inNormalDimension: 1
 --- !u!43 &1071544387
 Mesh:
   m_ObjectHideFlags: 0
@@ -7813,9 +7776,9 @@ PrefabInstance:
       propertyPath: floorCollider
       value: 
       objectReference: {fileID: 436625413}
-    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: sizeOfCollisionScan.y
-      value: 0
+    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7860,22 +7823,6 @@ PrefabInstance:
     - target: {fileID: 7769280049592244229, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Name
       value: Wooden Box 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.x
-      value: 1.847521
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.z
-      value: 1.6896956
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Center.x
-      value: 0.43945977
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Center.z
-      value: -0.48544005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
