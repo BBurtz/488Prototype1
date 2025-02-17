@@ -16,40 +16,47 @@ public class BoxCreationDestruction : MonoBehaviour
     //[SerializeField] private Material origM;
     //[SerializeField] private Material deactiveM;
     //[SerializeField] bool isActive;
+    [Tooltip("Length reference for shifting.")]
     [SerializeField] private Collider floorCollider;
-    [Tooltip("Mirrors Across X or Z Axis - true is X.")]
-    public bool MirrorAlongX;
+
     [Tooltip("How large the overlap box checks for collisions when shifting.")]
     public Vector3 sizeOfCollisionScan;
 
+    [Tooltip("Decides which way box moves, trying checking this if boxes are going the wrong way.")]
+    [SerializeField] private bool inNormalDimension = true;
+
     private Vector3 floorLength;
     private Vector3 floorWidthAcrossX;
-    [SerializeField] private bool inNormalDimension = true;
     private Vector3 calculatedLocation;
 
+    /// <summary>
+    /// Getting math variables
+    /// </summary>
     private void Start()
     {
         floorLength = floorCollider.bounds.size;
         floorWidthAcrossX = new Vector3(0, 0, (floorLength.z - 1) / 2);
-        //floorWidthAcrossZ = new Vector3((floorLength.x - 1) / 2, 0, 0);
     }
 
+    /// <summary>
+    /// Shifts box to other dimension via Q
+    /// </summary>
     public void destroyBox()
     {
 
         //shiftSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
 
-        //if nothing collides with the player
+        //if nothing collides with the box
         if (!isInBox())
         {
             originalBox.transform.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
         }
 
-        //if something collides with the player
+        //if something collides with the box
         else if (isInBox())
         {
-            //CannotShift();
+            Debug.Log("shifting into wall...");
         }
     }
  
@@ -75,28 +82,12 @@ public class BoxCreationDestruction : MonoBehaviour
     {
         if (inNormalDimension)
         {
-            if (MirrorAlongX)
-            {
                 calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + (floorWidthAcrossX.z + 1) * -1));
-            }
-
-            else
-            {
-                //calculatedLocation = new Vector3((originalBox.transform.position.x + (floorWidthAcrossZ.x + 1) * -1), playerPosition.position.y, playerPosition.position.z);
-            }
         }
 
         else if (!inNormalDimension)
         {
-            if (MirrorAlongX)
-            {
                 calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + floorWidthAcrossX.z + 1));
-            }
-
-            else
-            {
-                //calculatedLocation = new Vector3((playerPosition.position.x + floorWidthAcrossZ.x + 1), playerPosition.position.y, playerPosition.position.z);
-            }
         }
 
         return calculatedLocation;
