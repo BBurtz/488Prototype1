@@ -13,19 +13,25 @@ public class MenuManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void LoadScene(int Scene)
+    public void Play()
     {
-        SceneManager.LoadScene(Scene);
+        SceneManager.LoadScene(1);
     }
 
-    public void Close()
+    public void Quit()
     {
         Application.Quit();
+        print("WORKS");
     }
 
-    public void MainMenu()
+    public void Menu()
     {
         Time.timeScale = 1;
         SceneManager.LoadScene(0);
+    }
+
+    public void LevelButtonPressed(int level)
+    {
+        SceneManager.LoadScene(level);
     }
 }
