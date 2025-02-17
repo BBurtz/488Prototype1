@@ -112,6 +112,18 @@ public class PlayerMovement : MonoBehaviour
         InteractAction.started += interact;
         DestroyAction.started += destroy;
     }
+    
+    private void OnDisable()
+    {
+        playerControls.DeactivateInput();
+        JumpAction.started -= Jump;
+        ResetAction.started -= Reload;
+        SwitchAction.started -= shift;
+        MoveAction.performed -= move;
+        MoveAction.canceled -= stop;
+        InteractAction.started -= interact;
+        DestroyAction.started -= destroy;
+    }
 
     private void Reload(InputAction.CallbackContext context)
     {
