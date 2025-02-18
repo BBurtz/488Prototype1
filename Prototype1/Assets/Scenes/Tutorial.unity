@@ -5571,27 +5571,7 @@ PrefabInstance:
     - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: floorCollider
       value: 
-      objectReference: {fileID: 1967044859}
-    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: sizeOfCollisionScan.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: layerMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1337108535}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.548958
@@ -5635,18 +5615,6 @@ PrefabInstance:
     - target: {fileID: 7769280049592244229, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Name
       value: Wooden Box 1 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.z
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7999,30 +7967,10 @@ PrefabInstance:
     - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: floorCollider
       value: 
-      objectReference: {fileID: 436625413}
-    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: sizeOfCollisionScan.y
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1337108535}
     - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
-    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: layerMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8069,15 +8017,7 @@ PrefabInstance:
       value: Wooden Box 1
       objectReference: {fileID: 0}
     - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
-      propertyPath: m_Size.z
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -28,6 +28,9 @@ public class BoxCreationDestruction : MonoBehaviour
     [Tooltip("Layer mask that is ignored when looking for collisions.")]
     public LayerMask IgnoreWhenShifting;
 
+    [Tooltip("Offset for the shifting raycast. DO NOT PUT ANYTHING FOR Z.")]
+    public Vector3 BoxShiftingOffset;
+
     private Vector3 floorLength;
     private Vector3 floorWidthAcrossX;
     private Vector3 calculatedLocation;
@@ -85,12 +88,12 @@ public class BoxCreationDestruction : MonoBehaviour
     {
         if (inNormalDimension)
         {
-                calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + (floorWidthAcrossX.z + 1) * -1));
+            calculatedLocation = new Vector3(originalBox.transform.position.x + BoxShiftingOffset.x, originalBox.transform.position.y + BoxShiftingOffset.y, (originalBox.transform.position.z + (floorWidthAcrossX.z + 1) * -1));
         }
 
         else if (!inNormalDimension)
         {
-                calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + floorWidthAcrossX.z + 1));
+            calculatedLocation = new Vector3(originalBox.transform.position.x + BoxShiftingOffset.x, originalBox.transform.position.y + BoxShiftingOffset.y, (originalBox.transform.position.z + floorWidthAcrossX.z + 1));
         }
 
         return calculatedLocation;
@@ -126,7 +129,7 @@ public class BoxCreationDestruction : MonoBehaviour
         CalculateTransitionPoint();
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(originalBox.transform.position, calculatedLocation);
+        Gizmos.DrawLine(originalBox.transform.position + BoxShiftingOffset, calculatedLocation);
 
         if (isInBox())
         {
