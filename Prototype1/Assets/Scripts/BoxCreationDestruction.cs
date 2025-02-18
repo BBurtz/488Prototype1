@@ -28,6 +28,9 @@ public class BoxCreationDestruction : MonoBehaviour
     [Tooltip("Layer mask that is ignored when looking for collisions.")]
     public LayerMask IgnoreWhenShifting;
 
+    [Tooltip("Offset for the shifting raycast. DO NOT PUT ANYTHING FOR Z.")]
+    public Vector3 BoxShiftingOffset;
+
     private Vector3 floorLength;
     private Vector3 floorWidthAcrossX;
     private Vector3 calculatedLocation;
@@ -54,6 +57,7 @@ public class BoxCreationDestruction : MonoBehaviour
         {
             originalBox.transform.position = calculatedLocation;
             inNormalDimension = !inNormalDimension;
+            FindObjectOfType<PlayerMovement>().CDInRange.Remove(this);
         }
 
         //if something collides with the box
@@ -67,7 +71,7 @@ public class BoxCreationDestruction : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //Check if the object has player movement
-        if (other.GetComponent<PlayerMovement>() != null && other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
+        if (other.GetComponent<PlayerMovement>() != null)
         {
                 //Add the current box to the player's box list
                 other.GetComponent<PlayerMovement>().CDInRange.Add(this);
@@ -75,9 +79,10 @@ public class BoxCreationDestruction : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>() != null && other.gameObject.GetComponent<PlayerMovement>().BoxesMoveFreely)
+        if (other.GetComponent<PlayerMovement>() != null)
         {
             other.gameObject.GetComponent<PlayerMovement>().CDInRange.Remove(this);
+            print("Should have removed");
         }
     }
 
@@ -85,12 +90,12 @@ public class BoxCreationDestruction : MonoBehaviour
     {
         if (inNormalDimension)
         {
-                calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + (floorWidthAcrossX.z + 1) * -1));
+            calculatedLocation = new Vector3(originalBox.transform.position.x + BoxShiftingOffset.x, originalBox.transform.position.y + BoxShiftingOffset.y, (originalBox.transform.position.z + (floorWidthAcrossX.z + 1) * -1));
         }
 
         else if (!inNormalDimension)
         {
-                calculatedLocation = new Vector3(originalBox.transform.position.x, originalBox.transform.position.y, (originalBox.transform.position.z + floorWidthAcrossX.z + 1));
+            calculatedLocation = new Vector3(originalBox.transform.position.x + BoxShiftingOffset.x, originalBox.transform.position.y + BoxShiftingOffset.y, (originalBox.transform.position.z + floorWidthAcrossX.z + 1));
         }
 
         return calculatedLocation;
@@ -126,7 +131,7 @@ public class BoxCreationDestruction : MonoBehaviour
         CalculateTransitionPoint();
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(originalBox.transform.position, calculatedLocation);
+        Gizmos.DrawLine(originalBox.transform.position + BoxShiftingOffset, calculatedLocation);
 
         if (isInBox())
         {
