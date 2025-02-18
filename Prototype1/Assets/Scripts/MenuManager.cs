@@ -1,20 +1,37 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    public void LoadScene(int Scene)
+    public GameObject PauseMenu;
+
+    public void UnPause()
     {
-        SceneManager.LoadScene(Scene);
+        PauseMenu.SetActive(false);
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    public void Close()
+    public void Play()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void Quit()
     {
         Application.Quit();
+        print("WORKS");
     }
 
-    public void MainMenu()
+    public void Menu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene(0);
+    }
+
+    public void LevelButtonPressed(int level)
+    {
+        SceneManager.LoadScene(level);
     }
 }
