@@ -5572,9 +5572,25 @@ PrefabInstance:
       propertyPath: floorCollider
       value: 
       objectReference: {fileID: 1967044859}
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: sizeOfCollisionScan.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: layerMask.m_Bits
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5619,6 +5635,18 @@ PrefabInstance:
     - target: {fileID: 7769280049592244229, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Name
       value: Wooden Box 1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7972,9 +8000,29 @@ PrefabInstance:
       propertyPath: floorCollider
       value: 
       objectReference: {fileID: 436625413}
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: sizeOfCollisionScan.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: layerMask.m_Bits
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8019,6 +8067,18 @@ PrefabInstance:
     - target: {fileID: 7769280049592244229, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Name
       value: Wooden Box 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10280,6 +10340,119 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1001 &1996307948
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: floorCollider
+      value: 
+      objectReference: {fileID: 436625413}
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: inNormalDimension
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: sizeOfCollisionScan.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: sizeOfCollisionScan.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3106597751472128803, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: sizeOfCollisionScan.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
+    - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: layerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6767408243453754654, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.3478261
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 134.65999
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.6800001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -41.811043
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7769280049592244229, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Name
+      value: Wooden Box 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7769280049592244229, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8718781405482155613, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
 --- !u!43 &2020406691
 Mesh:
   m_ObjectHideFlags: 0
@@ -11880,3 +12053,4 @@ SceneRoots:
   - {fileID: 800272757}
   - {fileID: 475814211}
   - {fileID: 2102235501}
+  - {fileID: 1996307948}
