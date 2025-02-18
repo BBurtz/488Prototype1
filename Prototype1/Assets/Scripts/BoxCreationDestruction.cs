@@ -25,6 +25,9 @@ public class BoxCreationDestruction : MonoBehaviour
     [Tooltip("Decides which way box moves, trying checking this if boxes are going the wrong way.")]
     [SerializeField] private bool inNormalDimension = true;
 
+    [Tooltip("Layer mask that is ignored when looking for collisions.")]
+    public LayerMask IgnoreWhenShifting;
+
     private Vector3 floorLength;
     private Vector3 floorWidthAcrossX;
     private Vector3 calculatedLocation;
@@ -98,7 +101,7 @@ public class BoxCreationDestruction : MonoBehaviour
         CalculateTransitionPoint();
 
         Collider[] colliders = { };
-        colliders = Physics.OverlapBox(calculatedLocation, sizeOfCollisionScan / 2, Quaternion.identity);
+        colliders = Physics.OverlapBox(calculatedLocation, sizeOfCollisionScan / 2, Quaternion.identity, ~IgnoreWhenShifting);
 
         //if no collision
         if (colliders.Length == 0)
