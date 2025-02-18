@@ -199,10 +199,10 @@ public class PlayerMovement : MonoBehaviour
     private void destroy(InputAction.CallbackContext context)
     {
         //Destroys boxes with the BoxCreationDestruction code
-        foreach (BoxCreationDestruction bcd in CDInRange)
+
+        for(int i=CDInRange.Count-1; i>=0; i--)
         {
-            bcd.destroyBox();
-            Debug.Log("Is this being called?");
+            CDInRange[i].destroyBox();
         }
     }
 
