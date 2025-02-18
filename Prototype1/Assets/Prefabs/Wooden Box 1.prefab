@@ -191,6 +191,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalBox: {fileID: 5625180087379566039}
   floorCollider: {fileID: 0}
-  MirrorAlongX: 1
   sizeOfCollisionScan: {x: 1, y: 1, z: 1}
   inNormalDimension: 1
+  IgnoreWhenShifting:
+    serializedVersion: 2
+    m_Bits: 64
