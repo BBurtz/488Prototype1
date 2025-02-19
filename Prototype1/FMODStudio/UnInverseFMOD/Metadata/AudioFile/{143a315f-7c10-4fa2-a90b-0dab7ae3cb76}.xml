@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
-	<object class="AudioFile" id="{22d9021b-3ab1-4eab-8694-7850c6e0ecce}">
+	<object class="AudioFile" id="{143a315f-7c10-4fa2-a90b-0dab7ae3cb76}">
 		<property name="assetPath">
-			<value>Other/KeyPlaceholder.wav</value>
+			<value>Other/BoxBlockPlaceholder.wav</value>
 		</property>
 		<property name="frequencyInKHz">
 			<value>44.0999985</value>
@@ -11,7 +11,7 @@
 			<value>1</value>
 		</property>
 		<property name="length">
-			<value>0.19777777777777777</value>
+			<value>0.14145124716553287</value>
 		</property>
 		<relationship name="masterAssetFolder">
 			<destination>{4ae4c9c4-537b-441d-b9e9-7e586f28dedd}</destination>
