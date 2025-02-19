@@ -3126,6 +3126,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1529487019}
     m_Modifications:
+    - target: {fileID: 85679804663941337, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 1617244250818684036, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: linkedBox
       value: 
@@ -3976,7 +3980,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f6cd72130b132ae49ad1b46eddb1df9f, type: 2}
+  - {fileID: 2100000, guid: eaf589d417d5afe4dacf3abf1479dc8c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6753,6 +6757,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1529487019}
     m_Modifications:
+    - target: {fileID: 85679804663941337, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 1617244250818684036, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: linkedBox
       value: 
@@ -7159,6 +7167,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1529487019}
     m_Modifications:
+    - target: {fileID: 85679804663941337, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 1617244250818684036, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: linkedBox
       value: 
@@ -7637,6 +7649,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 6960831807961547455, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.61
@@ -9444,7 +9460,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ab22ac0cc1a8b214e9e11212cd449670, type: 2}
+  - {fileID: 2100000, guid: 0ce3c33b30580ce44939e02bfec495bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10298,8 +10314,8 @@ Transform:
   m_GameObject: {fileID: 1942871995}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.1, y: 9.352312, z: 222.65999}
-  m_LocalScale: {x: 30.48057, y: 7.999323, z: 1.894025}
+  m_LocalPosition: {x: -22.1, y: 6.4918, z: 222.65999}
+  m_LocalScale: {x: 30.48057, y: 13.720438, z: 1.894025}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1190316910}
@@ -10634,6 +10650,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1529487019}
     m_Modifications:
+    - target: {fileID: 85679804663941337, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 1617244250818684036, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: linkedBox
       value: 
