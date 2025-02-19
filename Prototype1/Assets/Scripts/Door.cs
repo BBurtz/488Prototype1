@@ -42,6 +42,11 @@ public class Door : MonoBehaviour
     {
         if (other.GetComponent<PlayerMovement>())
         {
+            if (NextScene == "WinScene")
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+
             SceneManager.LoadScene(NextScene);
         }
     }
