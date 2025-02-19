@@ -8,9 +8,12 @@ public class MenuManager : MonoBehaviour
 
     public void UnPause()
     {
-        PauseMenu.SetActive(false);
-        Time.timeScale = 1;
-        Cursor.lockState = CursorLockMode.Locked;
+        if (PauseMenu != null)
+        {
+            PauseMenu.SetActive(false);
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     public void Play()

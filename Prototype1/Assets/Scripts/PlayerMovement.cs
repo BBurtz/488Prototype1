@@ -119,9 +119,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void pause(InputAction.CallbackContext context)
     {
-        PauseMenu.SetActive(true);
-        Time.timeScale = 0;
-        Cursor.lockState = CursorLockMode.None;
+        if (PauseMenu == null)
+        {
+            return;
+        }
+
+        if (!PauseMenu.activeSelf)
+        {
+            PauseMenu.SetActive(true);
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (PauseMenu.activeSelf)
+        {
+            PauseMenu.SetActive(false);
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
     }
 
     private void OnDisable()
