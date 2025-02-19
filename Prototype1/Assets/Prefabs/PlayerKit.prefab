@@ -966,6 +966,22 @@ PrefabInstance:
       value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 1629518969872259235, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: CannotShiftColor.a
+      value: 0.65882355
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629518969872259235, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: CannotShiftColor.b
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629518969872259235, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: CannotShiftColor.g
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629518969872259235, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
+      propertyPath: CannotShiftColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1629518969872259235, guid: 2c5a6c6f9f1a545418d942f3ed177e7b, type: 3}
       propertyPath: sizeOfCollisionScan.x
       value: 1
       objectReference: {fileID: 0}
