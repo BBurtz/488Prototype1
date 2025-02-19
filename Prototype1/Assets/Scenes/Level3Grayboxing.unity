@@ -9349,6 +9349,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2190368105367744192, guid: 5bfb3e10f6cd1244c85d0b17c9bc28ff, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ab22ac0cc1a8b214e9e11212cd449670, type: 2}
     - target: {fileID: 4624905563154050120, guid: 5bfb3e10f6cd1244c85d0b17c9bc28ff, type: 3}
       propertyPath: correspondingDoor
       value: 
@@ -23227,6 +23231,10 @@ PrefabInstance:
       propertyPath: linkedBox
       value: 
       objectReference: {fileID: 1950479662}
+    - target: {fileID: 4442129809976436178, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c7b3877e9cbde6348becbb4bbf2db155, type: 2}
     - target: {fileID: 4442129809978637074, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: m_Name
       value: Metal Box 1
@@ -25409,6 +25417,10 @@ PrefabInstance:
       propertyPath: linkedBox
       value: 
       objectReference: {fileID: 714397700}
+    - target: {fileID: 4442129809976436178, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c7b3877e9cbde6348becbb4bbf2db155, type: 2}
     - target: {fileID: 4442129809978637074, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: m_Name
       value: Metal Box 1
