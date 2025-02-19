@@ -32399,6 +32399,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 6392999595368699662, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 6891189912416346934, guid: a3dd909f4b045f64f8ad24f036722d0a, type: 3}
       propertyPath: boxesMoveFreely
       value: 1
