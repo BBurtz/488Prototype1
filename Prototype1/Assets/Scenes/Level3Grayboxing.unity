@@ -25454,6 +25454,10 @@ PrefabInstance:
       value: Gate_Small
       objectReference: {fileID: 0}
     - target: {fileID: 3312814106845015825, guid: c536e95496f773644a5c123968ec6863, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3312814106845015825, guid: c536e95496f773644a5c123968ec6863, type: 3}
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
