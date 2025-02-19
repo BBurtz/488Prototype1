@@ -1245,7 +1245,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'A, W, S, D - Movement
 
-    Q - Destroy WOODEN Box
+    Q - Shift WOODEN Box
 
     SHIFT - Shift into
     a different dimension
