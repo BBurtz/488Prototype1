@@ -958,6 +958,10 @@ PrefabInstance:
       value: 0.21909489
       objectReference: {fileID: 0}
     - target: {fileID: 3312814106845015825, guid: c536e95496f773644a5c123968ec6863, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3312814106845015825, guid: c536e95496f773644a5c123968ec6863, type: 3}
       propertyPath: m_Center.x
       value: -0.0031483225
       objectReference: {fileID: 0}
@@ -3191,6 +3195,10 @@ PrefabInstance:
       propertyPath: linkedBox
       value: 
       objectReference: {fileID: 1406104120}
+    - target: {fileID: 4442129809976436178, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c7b3877e9cbde6348becbb4bbf2db155, type: 2}
     - target: {fileID: 4442129809978637074, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: m_Name
       value: MetalPair1-1
@@ -6891,6 +6899,10 @@ PrefabInstance:
       propertyPath: linkedBox
       value: 
       objectReference: {fileID: 752080366}
+    - target: {fileID: 4442129809976436178, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c7b3877e9cbde6348becbb4bbf2db155, type: 2}
     - target: {fileID: 4442129809978637074, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: m_Name
       value: MetalPair1-2
@@ -7301,6 +7313,10 @@ PrefabInstance:
       propertyPath: linkedBox
       value: 
       objectReference: {fileID: 2111317839}
+    - target: {fileID: 4442129809976436178, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c7b3877e9cbde6348becbb4bbf2db155, type: 2}
     - target: {fileID: 4442129809978637074, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: m_Name
       value: MetalPair2-2
@@ -10784,6 +10800,10 @@ PrefabInstance:
       propertyPath: linkedBox
       value: 
       objectReference: {fileID: 1439705337}
+    - target: {fileID: 4442129809976436178, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c7b3877e9cbde6348becbb4bbf2db155, type: 2}
     - target: {fileID: 4442129809978637074, guid: 9bd94cb107e550344a0b330905e82153, type: 3}
       propertyPath: m_Name
       value: MetalPair2-1
