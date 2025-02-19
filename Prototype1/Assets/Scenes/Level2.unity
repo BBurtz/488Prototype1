@@ -2791,6 +2791,10 @@ MonoBehaviour:
   floorCollider: {fileID: 0}
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
   inNormalDimension: 0
+  IgnoreWhenShifting:
+    serializedVersion: 2
+    m_Bits: 0
+  BoxShiftingOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &346016781 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
@@ -2817,6 +2821,10 @@ MonoBehaviour:
   floorCollider: {fileID: 0}
   sizeOfCollisionScan: {x: 0, y: 0, z: 0}
   inNormalDimension: 0
+  IgnoreWhenShifting:
+    serializedVersion: 2
+    m_Bits: 0
+  BoxShiftingOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &353735074 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4079749055122276855, guid: af05c8f96fcf7c4438583f9260a7ba1b, type: 3}
@@ -12873,7 +12881,7 @@ PrefabInstance:
       objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
     - target: {fileID: 6300110080393046137, guid: c536e95496f773644a5c123968ec6863, type: 3}
       propertyPath: NextScene
-      value: 4
+      value: Level3Grayboxing
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
