@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level2.unity
     guid: 88f34a287b7614b4cbcb05ffdf7fe6d8
+  - enabled: 1
+    path: Assets/Scenes/Level3Grayboxing.unity
+    guid: 87b7fe2233a2a76428150772edb7eadd
+  - enabled: 1
+    path: Assets/Scenes/WinScene.unity
+    guid: 8067d7aa04dc0c6449d8a47db4a4ccd7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
