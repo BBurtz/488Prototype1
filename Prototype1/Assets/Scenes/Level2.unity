@@ -4277,7 +4277,7 @@ PrefabInstance:
     - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: layerMask.m_Bits
       value: 4294967295
@@ -13141,7 +13141,7 @@ PrefabInstance:
     - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: layerMask.m_Bits
       value: 4294967295
@@ -16045,7 +16045,7 @@ PrefabInstance:
     - target: {fileID: 4228718586422034872, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 13400000, guid: 1f60440d52667544b9fcd0782f14ff38, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5922258728505837520, guid: a1534a8995995d7468d30c3bcd84ba47, type: 3}
       propertyPath: layerMask.m_Bits
       value: 4294967295
