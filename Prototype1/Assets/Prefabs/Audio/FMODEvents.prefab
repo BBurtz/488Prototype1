@@ -65,6 +65,13 @@ MonoBehaviour:
       Data3: -1106542976
       Data4: 1443731847
     Path: event:/PlayerSFX/Shift
+  <ShiftBlock>k__BackingField:
+    Guid:
+      Data1: 1775141978
+      Data2: 1160304741
+      Data3: 636159405
+      Data4: 1597007671
+    Path: event:/PlayerSFX/CantShift
   <Walk>k__BackingField:
     Guid:
       Data1: -397647988

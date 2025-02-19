@@ -23,6 +23,7 @@ public class Key : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
+                AudioManager.instance.PlayOneShot(FMODEvents.instance.Key, other.transform.position);
                 gameObject.SetActive(false);
                 doorInstance.OpenDoor();
 

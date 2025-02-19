@@ -9,6 +9,7 @@ public class FMODEvents : MonoBehaviour
     [field: Header("PlayerSFX")]
     [field: SerializeField] public EventReference Jump { get; private set; }
     [field: SerializeField] public EventReference Shift { get; private set; }
+    [field: SerializeField] public EventReference ShiftBlock { get; private set; }
     [field: SerializeField] public EventReference Walk { get; private set; }
 
     [field: Header("EnvironmentSFX")]

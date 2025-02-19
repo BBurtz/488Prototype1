@@ -50,7 +50,7 @@ public class BoxCreationDestruction : MonoBehaviour
     public void destroyBox()
     {
 
-        //shiftSFX.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.BoxDestroy, transform.position);
 
         //if nothing collides with the box
         if (!isInBox())

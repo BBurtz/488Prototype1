@@ -176,6 +176,8 @@ public class DimensionTransition : MonoBehaviour
     /// </summary>
     private void CannotShift()
     {
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.ShiftBlock, playerPosition.position);
+
         if (colorCoroutine != null)
         {
             StopCoroutine(colorCoroutine);

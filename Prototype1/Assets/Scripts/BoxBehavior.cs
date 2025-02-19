@@ -227,6 +227,7 @@ public class BoxBehavior : MonoBehaviour
         {
             return false;
         }
+        AudioManager.instance.PlayOneShot(FMODEvents.instance.BoxBlocked, transform.position);
         return true;
     }
 
