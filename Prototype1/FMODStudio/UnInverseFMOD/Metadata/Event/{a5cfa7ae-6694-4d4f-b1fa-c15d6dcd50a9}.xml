@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{a5cfa7ae-6694-4d4f-b1fa-c15d6dcd50a9}">
 		<property name="name">
-			<value>PlateDown</value>
+			<value>Plate</value>
 		</property>
 		<property name="outputFormat">
 			<value>2</value>
@@ -59,11 +59,18 @@
 	<object class="EventAutomatableProperties" id="{106e1546-c078-4d9e-9e7d-29d996108746}" />
 	<object class="MarkerTrack" id="{f4ad66b6-23cc-45c5-a6b2-bfdec9a668bb}" />
 	<object class="GroupTrack" id="{6daf1372-d0af-4907-8739-1a729771638b}">
+		<relationship name="modules">
+			<destination>{27d285a8-5987-4ee7-bdba-0a6400925f79}</destination>
+		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{195c09f8-4e86-48c6-816e-3df29e85ced2}</destination>
 		</relationship>
 	</object>
-	<object class="Timeline" id="{0a3a35b1-2f3e-4805-b719-5e0837b7ff16}" />
+	<object class="Timeline" id="{0a3a35b1-2f3e-4805-b719-5e0837b7ff16}">
+		<relationship name="modules">
+			<destination>{27d285a8-5987-4ee7-bdba-0a6400925f79}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerMaster" id="{bb170cfa-ab66-4620-8454-b2d13b124e84}">
 		<relationship name="effectChain">
 			<destination>{f9c44430-36a9-4686-826a-96b602072cb0}</destination>
@@ -81,7 +88,18 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{596979bb-eef9-4e48-afcc-a6099f36bb51}" />
+	<object class="SingleSound" id="{27d285a8-5987-4ee7-bdba-0a6400925f79}">
+		<property name="length">
+			<value>0.057256235827664398</value>
+		</property>
+		<relationship name="audioFile">
+			<destination>{1774b984-18eb-4a9d-91a4-f0fae3d1d6d5}</destination>
+		</relationship>
+	</object>
 	<object class="EventMixerGroup" id="{195c09f8-4e86-48c6-816e-3df29e85ced2}">
+		<property name="volume">
+			<value>-5</value>
+		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
