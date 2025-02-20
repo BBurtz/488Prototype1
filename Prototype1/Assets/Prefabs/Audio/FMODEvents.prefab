@@ -107,17 +107,10 @@ MonoBehaviour:
       Data3: 1275640976
       Data4: -517127183
     Path: event:/EnvironmentSFX/Key
-  <PlateDown>k__BackingField:
+  <Plate>k__BackingField:
     Guid:
       Data1: -1513117778
       Data2: 1297049236
       Data3: 1572993713
       Data4: -1454322323
-    Path: event:/EnvironmentSFX/PlateDown
-  <PlateUp>k__BackingField:
-    Guid:
-      Data1: 846028153
-      Data2: 1076226887
-      Data3: 208357516
-      Data4: 590174091
-    Path: event:/EnvironmentSFX/PlateUp
+    Path: event:/EnvironmentSFX/Plate

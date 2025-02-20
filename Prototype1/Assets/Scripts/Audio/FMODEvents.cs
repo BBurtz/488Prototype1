@@ -17,8 +17,7 @@ public class FMODEvents : MonoBehaviour
     [field: SerializeField] public EventReference BoxDestroy { get; private set; }
     [field: SerializeField] public EventReference BoxMove { get; private set; }
     [field: SerializeField] public EventReference Key { get; private set; }
-    [field: SerializeField] public EventReference PlateDown { get; private set; }
-    [field: SerializeField] public EventReference PlateUp { get; private set; }
+    [field: SerializeField] public EventReference Plate { get; private set; }
 
     public static FMODEvents instance { get; private set; }
 

@@ -15,6 +15,8 @@ using System.Collections;
 using System;
 using Unity.VisualScripting;
 using static TreadmillBehavior;
+using FMOD.Studio;
+using FMODUnity;
 
 public class BoxBehavior : MonoBehaviour
 {
@@ -38,6 +40,7 @@ public class BoxBehavior : MonoBehaviour
     private Coroutine treadmillMovementCoroutine;       //Storage for the treadmill coroutine
     private Coroutine linkedTreadmillMovementCoroutine;       //Storage for the treadmill coroutine
 
+    private EventInstance boxMove;
     /// <summary>
     /// Holds the different movement directions in a more readable way
     /// </summary>
@@ -66,6 +69,16 @@ public class BoxBehavior : MonoBehaviour
     {
         boxWidth = transform.localScale.x;
         forceTimeBeforeMove = 1f * gridSize * boxWidth;
+        boxMove = AudioManager.instance.CreateEventInstance(FMODEvents.instance.BoxMove);
+    }
+
+    private void Update()
+    {
+        boxMove.set3DAttributes(RuntimeUtils.To3DAttributes(GetComponent<Transform>(), GetComponent<Rigidbody>()));
+        if (GetComponent<Rigidbody>().linearVelocity == Vector3.zero)
+        {
+            boxMove.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        }
     }
 
     /// <summary>
@@ -151,6 +164,8 @@ public class BoxBehavior : MonoBehaviour
         linkedVel = Vector3.ClampMagnitude(linkedVel, basicVel.magnitude);
         linkedBox.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         linkedBox.GetComponent<Rigidbody>().AddForce(linkedVel, ForceMode.Impulse);
+
+        boxMove.start();
     }
 
     /// <summary>
