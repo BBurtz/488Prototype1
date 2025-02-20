@@ -1243,14 +1243,15 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'A, W, S, D - Movement
+  m_text: 'A, W, S, D - Movement (Push wooden and metal boxes by moving into them)
 
-    Q - Shift WOODEN Box
+    Q
+    - Shift WOODEN Box
 
-    SHIFT - Shift into
-    a different dimension
+    SHIFT - Shift into a different dimension
 
-    Space - Jump
+    Space -
+    Jump
 
     R - Reset'
   m_isRightToLeft: 0
